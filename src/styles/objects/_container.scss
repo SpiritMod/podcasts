@@ -1,0 +1,54 @@
+$width: 1220px;
+$padding: 20px;
+$padding_tablet: 10px;
+$padding_mobile: 10px;
+$max_width: $width + $padding * 2;
+
+.container {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: $max_width;
+  padding-left: $padding;
+  padding-right: $padding;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+
+  &--fullwidth {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+@include media('screen', '<1201px') {
+  .container {
+    padding-left: $padding_tablet;
+    padding-right: $padding_tablet;
+    &--small {
+      padding-left: $padding_tablet;
+      padding-right: $padding_tablet;
+    }
+  }
+}
+
+@include media('screen', '<1025px') {
+  .container {
+    padding-left: $padding_tablet;
+    padding-right: $padding_tablet;
+    &--small {
+      padding-left: $padding_tablet;
+      padding-right: $padding_tablet;
+    }
+  }
+}
+
+@include media('screen', '<768px') {
+  .container {
+    padding-left: $padding_mobile;
+    padding-right: $padding_mobile;
+    &--small {
+      padding-left: $padding_mobile;
+      padding-right: $padding_mobile;
+    }
+  }
+}

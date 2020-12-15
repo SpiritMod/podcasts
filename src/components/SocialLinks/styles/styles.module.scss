@@ -1,0 +1,34 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 34px;
+  @include media('screen', '<768px') {}
+}
+
+.item {
+  display: flex;
+  &:not(:last-child) {
+    margin-right: 30px;
+    @include media('screen', '<1025px') {
+      margin-right: 20px;
+    }
+  }
+  &:hover {
+    [class^='icon-'] {
+      color: $primary_color;
+    }
+  }
+  [class^='icon-'] {
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    &.icon-vk {
+      font-size: 120%;
+    }
+  }
+}

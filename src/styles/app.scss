@@ -1,0 +1,22 @@
+@import '../../node_modules/@csstools/normalize.css/normalize.css';
+
+// SETTINGS
+@import 'settings/settings';
+
+// TOOLS
+@import 'tools/media';
+@import '../assets/fonts/icomoon/style.scss';
+//@import 'tools/justify';
+//@import 'tools/vertical';
+//@import 'tools/center';
+
+// GENERIC
+@import 'generic/reset';
+@import 'generic/fonts';
+
+// ELEMENTS
+@import 'elements/body';
+@import 'elements/layout';
+
+// OBJECTS
+@import 'objects/container';

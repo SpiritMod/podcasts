@@ -1,0 +1,21 @@
+.MainLayout {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  z-index: 1;
+  margin-top: -84px;
+  padding-top: 94px;
+  padding-bottom: 100px;
+  //min-height: 100vh;
+  @media only screen and (max-width: 767px) {
+    padding-bottom: 50px;
+  }
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+}

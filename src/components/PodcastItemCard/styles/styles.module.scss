@@ -1,0 +1,146 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.card {
+  width: 100%;
+  padding: 0 15px 20px 15px;
+  @include media('screen', '<1260px') {
+    padding: 0 10px 15px 10px;
+  }
+  @include media('screen', '<1024px') {
+    padding: 0 5px 10px 5px;
+  }
+  @include media('screen', '<768px') {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.content {
+  border-radius: 22px;
+  padding: 45px 43px 33px 43px;
+  min-height: 347px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include media('screen', '<1260px') {
+    padding: 35px 33px 23px 33px;
+  }
+
+  @include media('screen', '<1024px') {
+    padding: 20px 15px 15px;
+    border-radius: 12px;
+    min-height: 239px;
+  }
+
+  @include media('screen', '<768px') {
+    display: flex;
+    flex-direction: row;
+    padding: 7px 9px 8px;
+    min-height: 80px;
+  }
+
+  &:hover {
+    .img {
+      transition: all .2s ease-in-out;
+      transform: scale(1.05);
+    }
+
+    .header {
+      [class^='icon-'] {
+        transition: all .2s ease-in-out;
+        transform: translateX(5px);
+      }
+    }
+  }
+}
+
+.img {
+  max-width: 100%;
+  border-radius: 22px;
+  filter: drop-shadow(-4px 4px 15px rgba(0, 0, 0, 0.15));
+  transition: all .2s ease-in-out;
+  overflow: hidden;
+
+  @include media('screen', '<1024px') {
+    border-radius: 12px;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 22px;
+    @include media('screen', '<1024px') {
+      border-radius: 12px;
+    }
+  }
+
+  @include media('screen', '<768px') {
+    flex: 0 0 65px;
+    max-width: 65px;
+    height: 65px;
+  }
+}
+
+.header {
+  margin-top: 35px;
+  position: relative;
+  font-family: $primary_font;
+  font-size: 18px;
+  color: #000;
+
+  @include media('screen', '<1024px') {
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  @include media('screen', '<768px') {
+    margin-top: 0;
+    margin-left: 10px;
+    width: 100%;
+  }
+
+  @include media('screen', '<768px') {
+    font-size: 18px;
+    margin-top: 5px;
+  }
+
+  @include media('screen', '<361px') {
+    font-size: 16px;
+  }
+
+  [class^='icon-'] {
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    transition: all .2s ease-in-out;
+
+    @include media('screen', '<1024px') {
+      font-size: 10px;
+    }
+
+    @include media('screen', '<768px') {
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      font-size: 12px;
+    }
+
+  }
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-right: 30px;
+
+  @include media('screen', '<768px') {
+    margin-right: 0;
+  }
+}
+
+.description {
+  font-size: 12px;
+  font-weight: 400;
+}

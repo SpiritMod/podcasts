@@ -1,0 +1,51 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.breadcrumb {
+  margin: 20px 0 10px;
+  @include media('screen', '<768px') {
+    margin: 0 0 10px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.item {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.12;
+  color: #717171;
+  position: relative;
+  &.active {
+    text-decoration: underline;
+  }
+  &:not(:last-child) {
+    padding-right: 5px;
+    cursor: pointer;
+  }
+  &:not(:first-child) {
+    padding-left: 10px;
+
+    &:before {
+      content: '-';
+      position: absolute;
+      left: 0;
+      color: #717171;
+    }
+  }
+  a {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #717171;
+    &:hover {
+      color: #fff;
+    }
+  }
+}

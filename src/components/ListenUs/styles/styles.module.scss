@@ -13,6 +13,26 @@
   @include media('screen', '<1024px') {
     margin-top: 35px;
   }
+  &.small {
+    margin: 0;
+    width: auto;
+    flex: 1;
+    .content {
+      justify-content: flex-end;
+
+      @include media('screen', '<768px') {
+        justify-content: flex-start;
+      }
+    }
+    .icon {
+      max-width: 36px;
+      margin: 0 22px 0 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 }
 
 .header {
@@ -80,7 +100,5 @@
   }
 }
 
-//.test {
-//  //background: red;
-//}
+
 

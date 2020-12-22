@@ -1,0 +1,68 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.recommendation {
+  padding: 100px 0 20px;
+  @include media('screen', '<768px') {
+    padding: 60px 0 20px;
+  }
+}
+
+.title {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: 0.03em;
+  margin-bottom: 50px;
+  @include media('screen', '<1260px') {
+    font-size: 20px;
+  }
+  @include media('screen', '<1024px') {
+    margin-bottom: 38px;
+  }
+  @include media('screen', '<768px') {
+    font-size: 18px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  letter-spacing: 0.03em;
+  margin: 0 -15px 0;
+  @include media('screen', '<1260px') {
+    margin: 0 -10px 0;
+  }
+  @include media('screen', '<1024px') {
+    margin: 0 -5px 0;
+  }
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  padding-bottom: 50px;
+  @include media('screen', '<768px') {
+    padding-bottom: 40px;
+  }
+}
+
+.slide {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 15px 30px 15px;
+  @include media('screen', '<1260px') {
+    padding: 10px 10px 15px;
+  }
+
+  @include media('screen', '<1024px') {
+    padding: 10px 5px 10px;
+  }
+
+  @include media('screen', '<768px') {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+

@@ -3,6 +3,12 @@ import React from 'react';
 //styles
 import styles from './styles/styles.module.scss';
 
+// types
+interface IListenUs {
+  title?: boolean,
+  className?: string,
+}
+
 
 // tetst data
 const data = [
@@ -28,7 +34,10 @@ const data = [
   },
 ];
 
-const ListenUs: React.FC = () => {
+const ListenUs: React.FC<IListenUs> = ({
+                                         title = true,
+                                         className
+}) => {
 
   const links = data.map(({id, url, img}) => {
     return (
@@ -39,10 +48,14 @@ const ListenUs: React.FC = () => {
   });
 
   return (
-    <div className={`${styles.listen} ${styles.test}`}>
-      <div className={styles.header}>
-        <div className={styles.title}>Слушай нас</div>
-      </div>
+    <div className={`${styles.listen} ${className}`}>
+      {
+        title && (
+          <div className={styles.header}>
+            <div className={styles.title}>Слушай нас</div>
+          </div>
+        )
+      }
       <div className={styles.content}>
         {links}
       </div>

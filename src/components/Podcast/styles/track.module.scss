@@ -1,0 +1,210 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+// icons
+@import "../../../assets/fonts/icomoon/variables";
+
+.track {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 23px 0;
+  width: 100%;
+  @include media('screen', '<768px') {
+    padding: 20px 0;
+  }
+
+  &:hover {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #1a1a1a 34.38%, #1a1a1a 64.58%, rgba(255, 255, 255, 0) 100%);
+    .play_pause {
+      background: linear-gradient(140deg, var(--color-b), var(--color-a));
+    }
+  }
+
+  .left_side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .right_side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .img {
+    margin-right: 38px;
+    font-size: 0;
+    @include media('screen', '<768px') {
+      margin-right: 20px;
+    }
+
+    @include media('screen', '<360px') {
+      margin-right: 15px;
+    }
+
+    img {
+      max-width: 57px;
+      border-radius: 6.5px;
+
+      @include media('screen', '<360px') {
+        max-width: 45px;
+      }
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 30px;
+    @include media('screen', '<768px') {
+      flex-direction: column;
+      margin-right: 15px;
+    }
+  }
+
+  .name {
+    display: block;
+    margin-right: 30px;
+    max-width: 240px;
+    flex: 0 0 240px;
+    @include media('screen', '<1024px') {
+      max-width: 180px;
+      flex: 0 0 180px;
+    }
+
+    @include media('screen', '<768px') {
+      flex: 0 0 auto;
+      margin-right: 0;
+      max-width: 140px;
+      width: 140px;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    @include media('screen', '<360px') {
+      font-size: 14px;
+      max-width: 120px;
+      width: 120px;
+    }
+
+    a {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%;
+      display: block;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover {
+        color: $primary_color;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .album {
+    color: #E0E0E0;
+    font-size: 18px;
+    font-weight: normal;
+    display: block;
+
+    max-width: 220px;
+    flex: 0 0 220px;
+
+    @include media('screen', '<1024px') {
+      max-width: 180px;
+      flex: 0 0 180px;
+    }
+
+    @include media('screen', '<768px') {
+      flex: 0 0 auto;
+      font-size: 14px;
+      max-width: 140px;
+      width: 140px;
+    }
+
+    @include media('screen', '<360px') {
+      font-size: 12px;
+      max-width: 120px;
+      width: 120px;
+    }
+  }
+
+  .duration {
+    font-size: 16px;
+    margin-right: 80px;
+    min-width: 70px;
+
+    @include media('screen', '<1024px') {
+      margin-right: 20px;
+    }
+
+    @include media('screen', '<768px') {
+      font-size: 14px;
+      margin-right: 15px;
+      min-width: 50px;
+    }
+
+    @include media('screen', '<360px') {
+      font-size: 12px;
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &.amplitude-paused {
+      .play_pause {
+        //background: linear-gradient(140deg, var(--color-b), var(--color-a));
+
+        span {
+          margin-left: 3px;
+          &:before {
+            content: $icon-play;
+          }
+        }
+      }
+    }
+
+    &.amplitude-playing {
+      .play_pause {
+        background: linear-gradient(140deg, var(--color-b), var(--color-a));
+
+        span {
+          &:before {
+            content: $icon-pause;
+          }
+        }
+      }
+    }
+  }
+
+  .play_pause {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    background-color: #828282;
+    border-radius: 50%;
+    font-size: 15px;
+  }
+
+  .play {
+    font-size: 16px;
+    margin-left: 20px;
+
+    @include media('screen', '<768px') {
+      display: none;
+    }
+  }
+}

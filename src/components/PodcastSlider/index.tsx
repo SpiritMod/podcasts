@@ -125,7 +125,7 @@ const PodcastSlider: React.FC = () => {
     rows: 2,
     responsive: [
       {
-        breakpoint: 768,
+        breakpoint: 767,
         settings: {
           slidesToShow: 1,
         }

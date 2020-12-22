@@ -7,8 +7,7 @@ import {Switch, Route} from 'react-router-dom';
 import {book} from './book';
 
 // Pages
-import { HomePage } from '../Pages';
-import {MainLayout} from "../layouts";
+import { HomePage, PodcastPage } from '../Pages';
 
 export const Routes: React.FC = () => {
   return (
@@ -18,9 +17,7 @@ export const Routes: React.FC = () => {
           <HomePage />
         </Route>
         <Route exact path={book.podcast}>
-          <MainLayout>
-            <h1>PAGE podcast</h1>
-          </MainLayout>
+          <PodcastPage />
         </Route>
 
         <Route>

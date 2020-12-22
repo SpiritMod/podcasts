@@ -7,6 +7,7 @@ import clsListenUs from '../ListenUs/styles/styles.module.scss';
 
 // components
 import ListenUs from "../ListenUs";
+import LoadMoreLink from "../LoadMoreLink";
 import Track from './Track';
 
 //import ITrack from './Track';
@@ -93,10 +94,7 @@ const Podcast: React.FC = () => {
             {tracks}
           </div>
           <div className={styles.playlist_footer}>
-            <div className={styles.playlist_more} id="add-podcast">
-              <span className={styles.playlist_more_text}>Предыдущие выпуски</span>
-              <span className={`${styles.playlist_more_icon} icon-arrow-longer-right`} />
-            </div>
+            <LoadMoreLink label={'Предыдущие выпуски'}/>
           </div>
         </div>
       </section>

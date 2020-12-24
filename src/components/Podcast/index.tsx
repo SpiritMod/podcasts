@@ -9,6 +9,7 @@ import clsListenUs from '../ListenUs/styles/styles.module.scss';
 import ListenUs from "../ListenUs";
 import LoadMoreLink from "../LoadMoreLink";
 import Track from './Track';
+import Sort from '../Sort';
 
 //import ITrack from './Track';
 
@@ -89,6 +90,7 @@ const Podcast: React.FC = () => {
         <div className={styles.playlist}>
           <div className={styles.playlist_header}>
             <div className={styles.playlist_title}>Эпизоды</div>
+              <Sort/>
           </div>
           <div className={styles.playlist_content}>
             {tracks}

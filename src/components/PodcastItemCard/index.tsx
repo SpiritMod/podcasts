@@ -1,5 +1,6 @@
 //core
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 //styles
 import styles from './styles/styles.module.scss';
@@ -22,7 +23,7 @@ interface IPodcastItemCard {
 const PodcastItemCard: React.FC<IPodcastItemCard> = ({data}) => {
   return (
     <div className={styles.card}>
-      <a href="/podcast" className={styles.content} style={{ background: `linear-gradient(to bottom, ${data.colorFirst}, ${data.colorSecond})`}}>
+      <Link to="/podcast" className={styles.content} style={{ background: `linear-gradient(to bottom, ${data.colorFirst}, ${data.colorSecond})`}}>
         <div className={styles.img}>
           <img src={data.imgUrl} alt="img"/>
         </div>
@@ -31,7 +32,7 @@ const PodcastItemCard: React.FC<IPodcastItemCard> = ({data}) => {
           <div className={styles.title}>{data.title}</div>
           <div className={styles.description}>{data.description}</div>
         </div>
-      </a>
+      </Link>
     </div>
   )
 };

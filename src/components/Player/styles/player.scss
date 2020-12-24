@@ -1,0 +1,117 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.react-jinke-music-player-main {
+  .music-player-panel {
+    background: #000;
+    box-shadow: none;
+    .panel-content {
+      .img-rotate {
+        animation: none;
+        border-radius: 0;
+      }
+
+      .player-content {
+        > .group {
+          &.hide-panel {
+            display: none;
+          }
+        }
+      }
+
+      .progress-bar-content {
+        .audio-title {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 19px;
+          letter-spacing: 0.03em;
+          color: #828282;
+        }
+
+        .audio-main {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 6px;
+          align-items: center;
+          .current-time,
+          .duration {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 10px;
+            line-height: 12px;
+            letter-spacing: 0.03em;
+            color: #828282;
+            text-align: left;
+            flex-basis: 34px;
+          }
+          .duration {
+            text-align: right;
+          }
+        }
+
+        .progress-bar {
+          margin: 0 12px;
+          .rc-slider-rail {
+            background: rgba(#4F4F4F,0.11);
+            opacity: 0;
+          }
+          .rc-slider-track {
+            background: linear-gradient(270deg, #EE25FC 0%, #F8FF13 100%);
+          }
+          .rc-slider-handle {
+            border: none;
+            background: #EE29F8;
+          }
+          .rc-slider-step {
+            background: #4F4F4F;
+            border-radius: 2px;
+          }
+        }
+      }
+
+      .player-content {
+
+        .play-btn {
+          svg {
+            //color: linear-gradient(146.95deg, #EE24FE 17.35%, #F8FF13 84.74%);
+          }
+        }
+
+        .loading-icon {
+          svg {
+            color: $primary_color;
+          }
+        }
+
+        .sound-operation {
+          .rc-slider-rail {
+            background: rgba(#4F4F4F,0.11);
+            opacity: 0;
+          }
+          .rc-slider-track {
+            background: linear-gradient(270deg, #EE25FC 0%, #F8FF13 100%);
+            z-index: 1;
+          }
+          .rc-slider-handle {
+            border: none;
+            background: #fff;
+            z-index: 10;
+          }
+          .rc-slider-step {
+            background: #4F4F4F;
+            border-radius: 2px;
+          }
+        }
+
+      }
+    }
+  }
+
+  svg:active,
+  svg:hover {
+    color: $primary_color;
+  }
+}
+

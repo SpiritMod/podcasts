@@ -7,7 +7,8 @@ import {Switch, Route} from 'react-router-dom';
 import {book} from './book';
 
 // Pages
-import { HomePage, PodcastPage } from '../Pages';
+import { HomePage, PodcastPage, EpisodePage } from '../Pages';
+import Player from "../components/Player";
 
 export const Routes: React.FC = () => {
   return (
@@ -19,11 +20,16 @@ export const Routes: React.FC = () => {
         <Route exact path={book.podcast}>
           <PodcastPage />
         </Route>
+        <Route exact path={book.episode}>
+          <EpisodePage />
+        </Route>
 
         <Route>
           <h1>PAGE NOT FOUND</h1>
         </Route>
       </Switch>
+
+      <Player />
     </>
   )
 };

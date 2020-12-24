@@ -3,6 +3,17 @@
 
 .slick-slider {
   width: 100%;
+
+  .slick-list {
+    margin: 0 -15px;
+    @include media('screen', '<1260px') {
+      margin: 0 -10px;
+    }
+    @include media('screen', '<1024px') {
+      margin: 0 -5px;
+    }
+  }
+
   .slick-arrow {
     position: absolute;
     display: block;

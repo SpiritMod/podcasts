@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div className="container">
         <div className={styles.row}>
-          <Link to={book.root} className={styles.logo}>
+          <Link to={book.episode} className={styles.logo}>
             <img src={logo} alt="Parimatch. Играют они – побеждаешь ты!"/>
           </Link>
           <SocialLinks />

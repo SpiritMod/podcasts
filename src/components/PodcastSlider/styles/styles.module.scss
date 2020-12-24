@@ -15,14 +15,7 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -15px;
   padding-bottom: 50px;
-  @include media('screen', '<1260px') {
-    margin: 0 -10px;
-  }
-  @include media('screen', '<1024px') {
-    margin: 0 -5px;
-  }
   @include media('screen', '<768px') {
     padding-bottom: 40px;
   }

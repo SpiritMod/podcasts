@@ -29,7 +29,6 @@ yarn-error.log*
 .idea/modules.xml
 .idea/start-com.iml
 .idea/workspace.xml
-.DS_Store
 *.DS_Store
 *node_modules
 node_modules/*

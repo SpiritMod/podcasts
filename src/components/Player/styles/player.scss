@@ -19,13 +19,10 @@
     .panel-content {
       width: 100%;
       max-width: 1260px;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 0;
+      padding-right: 0;
       margin: 0 auto;
-      @include media('screen', '<1201px') {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
+      justify-content: space-between;
       @include media('screen', '<768px') {
         flex-direction: column;
         padding: 0 0;
@@ -39,9 +36,9 @@
       }
 
       .player-content {
-        padding-left: 20px;
+        padding: 0 20px;
         @include media('screen', '<1201px') {
-          padding-left: 10px;
+          padding: 0 10px;
         }
         @include media('screen', '<768px') {
           order: 1;
@@ -61,10 +58,8 @@
         width: 100%;
         max-width: 815px;
         padding: 0 20px;
-        margin-left: -20px;
         @include media('screen', '<1201px') {
           padding: 0 10px;
-          margin-left: -10px;
         }
         @include media('screen', '<768px') {
           display: flex!important;
@@ -301,10 +296,8 @@
 @keyframes translateY {
   from {
     transform: translate3d(0, 150%, 0);
-    //opacity: 0;
   }
   to {
     transform: translate3d(0, 0, 0);
-    //opacity: 1;
   }
 }

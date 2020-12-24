@@ -2,17 +2,19 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 
-
 // Routes
 import {book} from './book';
 
 // Pages
 import { HomePage, PodcastPage, EpisodePage } from '../Pages';
+import ScrollToTop from './ScrollToTop';
 import Player from "../components/Player";
 
 export const Routes: React.FC = () => {
   return (
     <>
+      <ScrollToTop />
+
       <Switch>
         <Route exact path={book.root}>
           <HomePage />

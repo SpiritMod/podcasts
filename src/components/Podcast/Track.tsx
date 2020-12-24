@@ -1,5 +1,6 @@
 // core
 import React from "react";
+import { Link } from "react-router-dom";
 
 // styles
 import styles from './styles/track.module.scss';
@@ -20,12 +21,12 @@ const Track: React.FC<ITrack> = (props) => {
   return (
     <div className={styles.track}>
       <div className={styles.left_side}>
-        <a href="#" className={styles.img}>
+        <Link to="/podcast/episode" className={styles.img}>
           <img src={imgUrl} alt="img"/>
-        </a>
+        </Link>
         <div className={styles.text}>
           <div className={styles.name}>
-            <a href="#">{title}</a>
+            <Link to="/podcast/episode">{title}</Link>
           </div>
           <div className={styles.album}>{podcast}</div>
         </div>

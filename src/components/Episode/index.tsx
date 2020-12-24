@@ -8,7 +8,6 @@ import './styles/tabs.scss';
 import clsListenUs from "../ListenUs/styles/styles.module.scss";
 import ListenUs from "../ListenUs";
 import LoadMoreLink from "../LoadMoreLink";
-import ReadMore from "../ReadMore";
 
 
 const Episode: React.FC = () => {

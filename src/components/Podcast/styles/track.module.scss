@@ -184,18 +184,6 @@
         }
       }
     }
-
-    &.amplitude-playing {
-      .play_pause {
-        background: linear-gradient(140deg, var(--color-b), var(--color-a));
-
-        span {
-          &:before {
-            content: $icon-pause;
-          }
-        }
-      }
-    }
   }
 
   .play_pause {

@@ -27,7 +27,7 @@ const Track: React.FC<ITrack> = (props) => {
           <div className={styles.name}>
             <a href="#">{title}</a>
           </div>
-          <div className={styles.album}>{podcast}</div>
+          {/*<div className={styles.album}>{podcast}</div>*/}
         </div>
       </div>
       <div className={styles.right_side}>

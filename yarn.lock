@@ -7937,6 +7937,7 @@ rc-switch@^3.2.2:
 rc-tabs@^11.7.2:
   version "11.7.2"
   resolved "https://registry.yarnpkg.com/rc-tabs/-/rc-tabs-11.7.2.tgz#d9443e471859b9dad81dc70abbdaefe40b1db5ab"
+  integrity sha512-2M/XE4TdecnjsDylJSs49OmjJuDuix3VmSiNaPd50PMqFc+dc4fEof3J8/ad12enicVOcsH4BEQEms//Kn4DBw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     classnames "2.x"

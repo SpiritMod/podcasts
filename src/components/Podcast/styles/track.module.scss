@@ -69,11 +69,21 @@
   .name {
     display: block;
     margin-right: 30px;
-    max-width: 240px;
-    flex: 0 0 240px;
+    //max-width: 240px;
+    //flex: 0 0 240px;
+    max-width: 640px;
+    flex: 0 0 640px;
+
+    @include media('screen', '<1260px') {
+      max-width: 480px;
+      flex: 0 0 480px;
+    }
+
     @include media('screen', '<1024px') {
-      max-width: 180px;
-      flex: 0 0 180px;
+      //max-width: 180px;
+      //flex: 0 0 180px;
+      max-width: 340px;
+      flex: 0 0 340px;
     }
 
     @include media('screen', '<768px') {
@@ -82,7 +92,7 @@
       max-width: 140px;
       width: 140px;
       font-size: 16px;
-      margin-bottom: 5px;
+      //margin-bottom: 5px;
     }
 
     @include media('screen', '<360px') {

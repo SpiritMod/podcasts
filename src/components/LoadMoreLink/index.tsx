@@ -11,7 +11,7 @@ interface ILoadMoreLink  {
 
 const LoadMoreLink: React.FC<ILoadMoreLink>  = ({label= 'Больше'}) => {
   return  (
-    <div className={styles.more} id="add-podcast">
+    <div className={styles.more}>
       <span className={styles.more_text}>{label}</span>
       <span className={`${styles.more_icon} icon-arrow-longer-right`} />
     </div>

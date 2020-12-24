@@ -61,7 +61,7 @@ const Podcast: React.FC = () => {
   const { title, description, playlist, bgUrl, imgUrl } = data;
 
   const tracks = playlist.map((item) => {
-    return <Track {...item} />
+    return <Track key={item.id} {...item} />
   })
 
   return (

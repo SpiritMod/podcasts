@@ -6,6 +6,7 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import 'react-jinke-music-player/assets/index.css';
 import './styles/player.scss';
 
+import iconLoading from './icons/spinner.svg';
 
 export interface ISong {
   name: string,
@@ -36,19 +37,6 @@ const audio = [
   },
 ];
 
-//import iconPrev from './icons/prev.svg';
-//import iconNext from './icons/next.svg';
-
-const IconPlay: React.FC = () => {
-  return (
-    <>
-      <svg stroke="#828282" id="as1" data-name="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.84 19.63">
-        <path className="cls-1" d="M13.84,18.77V.77a.82.82,0,1,0-1.63,0V8.41L1,1.77a.64.64,0,0,0-.33-.09.65.65,0,0,0-.47.2A.69.69,0,0,0,0,2.36V17.23a.69.69,0,0,0,.09.34.67.67,0,0,0,.24.25.64.64,0,0,0,.66,0l11.22-6.69v7.64a.81.81,0,0,0,1.63,0Z" transform="translate(0 0.05)"/>
-      </svg>
-    </>
-  )
-};
-
 const Player: React.FC = () => {
 
   // const [audioList, setAudioList] = useState<ISong[] | undefined>(undefined);
@@ -59,7 +47,9 @@ const Player: React.FC = () => {
   //   }, 20)
   // }, [audioList, setAudioList]);
 
-  //const play =
+  const playBtn = <span className={'icon-play'}/>;
+  const pauseBtn = <span className={'icon-pause'}/>;
+  const loadingBtn = <img src={iconLoading} alt="Loading..."/>;
 
   return (
     <>
@@ -68,22 +58,24 @@ const Player: React.FC = () => {
           mode={'full'}
           autoPlay={false}
           showDownload={false}
-          showPlayMode={true}
+          showPlayMode={false}
           showThemeSwitch={false}
           showReload={false}
           remember={true}
           preload={true}
           defaultPlayIndex={0}
+          defaultPlayMode={'orderLoop'}
           showMediaSession
           quietUpdate
           clearPriorAudioLists
           mobileMediaQuery="(max-width: 1px)"
           audioLists={audio}
 
-          // icon={{
-          //   play: IconPlay,
-          //   loading: 'll'
-          // }}
+          icon={{
+            pause: pauseBtn,
+            play: playBtn,
+            loading: loadingBtn,
+          }}
 
         />
       }

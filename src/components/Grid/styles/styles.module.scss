@@ -125,4 +125,7 @@
 
 .footer {
   padding-top: 60px;
+  @include media('screen', '<768px') {
+    padding-top: 30px;
+  }
 }

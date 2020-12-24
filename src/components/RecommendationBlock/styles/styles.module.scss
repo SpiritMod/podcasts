@@ -4,7 +4,7 @@
 .recommendation {
   padding: 100px 0 20px;
   @include media('screen', '<768px') {
-    padding: 60px 0 20px;
+    padding: 60px 0 0;
   }
 }
 

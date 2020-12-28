@@ -3,6 +3,9 @@
 
 @import "../../../assets/fonts/icomoon/variables";
 
+$first: var(--color-player-a);
+$second: var(--color-player-b);
+
 .react-jinke-music-player-main {
   .music-player-panel {
     background: #000;
@@ -123,11 +126,11 @@
             opacity: 0;
           }
           .rc-slider-track {
-            background: linear-gradient(270deg, #EE25FC 0%, #F8FF13 100%);
+            background: linear-gradient(270deg, $first 0%, $second 100%);
           }
           .rc-slider-handle {
             border: none;
-            background: #EE29F8;
+            background: $first;
           }
           .rc-slider-step {
             background: #4F4F4F;
@@ -146,7 +149,7 @@
           margin: 0 24px;
           width: 64px;
           height: 64px;
-          background: linear-gradient(140deg, #F8FF13,#ED22FF);
+          background: linear-gradient(140deg, $first, $second);
           border-radius: 50%;
           @include media('screen', '<768px') {
             width: 46px;
@@ -183,7 +186,7 @@
             justify-content: center;
             width: 64px;
             height: 64px;
-            background: linear-gradient(140deg, #F8FF13,#ED22FF);
+            background: linear-gradient(140deg, $first, $second);
             border-radius: 50%;
             @include media('screen', '<768px') {
               width: 46px;
@@ -229,13 +232,13 @@
             opacity: 0;
           }
           .rc-slider-track {
-            background: linear-gradient(270deg, #EE25FC 0%, #F8FF13 100%);
+            background: linear-gradient(270deg, $first 0%, $second 100%);
             z-index: 1;
           }
           .rc-slider-handle {
             border: none;
             //background: #fff;
-            background: #EE29F8;
+            background: $first;
             z-index: 10;
           }
           .rc-slider-step {

@@ -37,8 +37,8 @@ const data = [
   },
   {
     id: '2',
-    colorFirst: '#6704FF',
-    colorSecond: '#F8FF13',
+    colorFirst: '#F8FF13',
+    colorSecond: '#ED22FF',
     imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-1.png',
     podcast: 'На дистанции',
     epizode: 'Epizode #12',
@@ -62,8 +62,8 @@ const data = [
   },
   {
     id: '3',
-    colorFirst: '#6704FF',
-    colorSecond: '#F8FF13',
+    colorFirst: '#F8FF13',
+    colorSecond: '#6704FF',
     imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-1.png',
     podcast: 'На дистанции',
     epizode: 'Epizode #12',
@@ -87,7 +87,7 @@ const data = [
   },
   {
     id: '4',
-    colorFirst: '#6704FF',
+    colorFirst: '#80F983',
     colorSecond: '#F8FF13',
     imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-1.png',
     podcast: 'На дистанции',

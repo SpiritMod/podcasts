@@ -1,6 +1,10 @@
 //core
 import React from 'react';
-import {Router} from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+// Instruments
+import { store } from "./stores/store";
 
 // Routes
 import {history} from './navigation/history';
@@ -12,9 +16,11 @@ import './styles/app.scss';
 const App: React.FC = () => {
   return (
     <>
-      <Router history={history}>
-        <Routes/>
-      </Router>
+      <Provider store={store}>
+        <Router history={history}>
+          <Routes/>
+        </Router>
+      </Provider>
     </>
   );
 };

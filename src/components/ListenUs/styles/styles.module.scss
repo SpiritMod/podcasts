@@ -28,9 +28,11 @@
       max-width: 36px;
       width: 36px;
       margin: 0 22px 0 0;
-
+      @include media('screen', '<768px') {
+        margin: 0 20px 20px 0;
+      }
       &:last-child {
-        margin-right: 0;
+        margin-righ0: 0;
       }
     }
   }
@@ -51,7 +53,6 @@
 
     .icon {
       margin: 0 0 20px 0;
-
       @include media('screen', '<1024px') {
         //margin-left: 10px;
       }
@@ -115,6 +116,7 @@
   @include media('screen', '<768px') {
     max-width: 40px;
     width: 40px;
+    margin: 0 20px 20px 0;
   }
 
   img {

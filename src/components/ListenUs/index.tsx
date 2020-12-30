@@ -32,6 +32,21 @@ const data = [
     url: 'https://www.google.com/',
     img: 'https://test.fmw.pm/podcasts/public/images/platform/spotify.png'
   },
+  {
+    id: '5',
+    url: 'https://www.google.com/',
+    img: 'https://test.fmw.pm/podcasts/public/images/platform/google-music.png'
+  },
+  {
+    id: '6',
+    url: 'https://www.google.com/',
+    img: 'https://test.fmw.pm/podcasts/public/images/platform/bind-1.png'
+  },
+  {
+    id: '7',
+    url: 'https://www.google.com/',
+    img: 'https://test.fmw.pm/podcasts/public/images/platform/spotify.png'
+  },
 ];
 
 const ListenUs: React.FC<IListenUs> = ({

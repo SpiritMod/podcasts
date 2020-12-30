@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 //components
 import PodcastItemCard from '../PodcastItemCard';
+import WithLoading from '../../HOC/WithLoading';
 
 //styles
 import styles from './styles/styles.module.scss';
@@ -150,13 +151,13 @@ const PodcastSlider: React.FC = () => {
   );
 
 
-
   return (
     <section className={styles.section}>
-      {slider}
+      <WithLoading isLoading={false} >
+        {slider}
+      </WithLoading>
     </section>
   )
 };
 
 export default PodcastSlider;
-

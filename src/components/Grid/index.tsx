@@ -465,35 +465,33 @@ const data = [
 const Grid: React.FC = () => {
 
   const firstcols = data.map((item, index) => {
-    if (index < 4) {
-
-      return (
-
+    return (
+      index < 4 && (
         <div key={item.id} className={styles.col}>
           <ItemSong data={item} dataKey={index + 1} className={stylesItemSong.type_first}/>
         </div>
       )
-    }
+    )
   });
 
   const secondcols = data.map((item, index) => {
-    if (index > 3 && index < 6) {
-      return (
+    return (
+      (index > 3 && index < 6) && (
         <div key={item.id} className={styles.col}>
           <ItemSong dataKey={index - 3} data={item} className={stylesItemSong.type_second}/>
         </div>
       )
-    }
+    )
   });
 
   const thirdcols = data.map((item, index) => {
-    if (index > 5) {
-      return (
+    return (
+      index > 5 && (
         <div key={item.id} className={styles.col}>
           <ItemSong dataKey={index - 5} data={item} className={stylesItemSong.type_third}/>
         </div>
       )
-    }
+    )
   });
 
   return (

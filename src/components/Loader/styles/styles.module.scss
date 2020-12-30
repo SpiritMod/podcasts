@@ -1,0 +1,85 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+$har-load-height: 100px;
+$har-load-width: 40px;
+
+.loader {
+  .loader_wrapper {
+    margin: 50px auto;
+    width: auto;
+    height: $har-load-width;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    div {
+      margin: 0 2px;
+      height: 100%;
+      width: 4px;
+      background: $primary_color;
+      vertical-align: middle;
+      border-radius: 4px;
+      display: inline-block;
+      -webkit-animation: har-loader-stretch 2s infinite ease-in-out;
+      animation: har-loader-stretch 2s infinite ease-in-out;
+      box-shadow: none;
+
+      &.sound5 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+      }
+      &.sound4, &.sound6 {
+        -webkit-animation: har-loader-stretch-twice 2s infinite ease-in-out;
+        animation: har-loader-stretch-twice 2s infinite ease-in-out;
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+      }
+      &.sound2, &.sound8 {
+        -webkit-animation-delay: -0.7s;
+        animation-delay: -0.7s;
+      }
+      &.sound1, &.sound9 {
+        -webkit-animation-delay: -0.5s;
+        animation-delay: -0.5s;
+      }
+      &.sound3, &.sound7 {
+        -webkit-animation-delay: -0.4s;
+        animation-delay: -0.4s;
+      }
+    }
+  }
+  .loader_label {
+
+  }
+}
+
+@keyframes har-loader-stretch-twice {
+  0%, 35%, 70%, 100% {
+    height: $har-load-width / 4;
+  }
+  20%, 50% {
+
+    height: $har-load-width;
+  }
+}
+
+@-webkit-keyframes har-loader-stretch {
+  0%, 40%, 100% {
+    height: $har-load-width / 4;
+  }
+  20% {
+    height: $har-load-width;
+  }
+}
+
+@keyframes har-loader-stretch {
+  0%, 40%, 100%  {
+    height: $har-load-width / 4;
+  }
+  20% {
+    height: $har-load-width;
+  }
+}
+

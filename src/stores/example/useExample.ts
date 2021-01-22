@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { IExampleState } from "./example/types";
+import { IExampleState } from "./types";
 
 type YourRootState = {
   example: IExampleState

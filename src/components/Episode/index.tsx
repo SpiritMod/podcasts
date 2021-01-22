@@ -5,6 +5,7 @@ import {Scrollbars} from 'react-custom-scrollbars';
 
 //components
 import ListenUs from "../ListenUs";
+import CustomScrollbars from "../CustomScrollbars";
 //import LoadMoreLink from "../LoadMoreLink";
 
 
@@ -12,10 +13,56 @@ import ListenUs from "../ListenUs";
 import styles from './styles/styles.module.scss';
 import './styles/tabs.scss';
 import clsListenUs from "../ListenUs/styles/styles.module.scss";
-import CustomScrollbars from "../CustomScrollbars";
+
+// hooks
+import {usePlayer} from "../../stores/player/usePlayer";
 
 
 const Episode: React.FC = () => {
+
+  const { setCurrent, setPlaylist } = usePlayer();
+
+  const onPlaySong = (index: number) => {
+    if (index === 0) {
+      setCurrent({
+        id: 't1',
+        name: 'Despacito',
+        singer: 'Luis Fonsi',
+        cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
+        musicSrc: 'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+        timestamp: 'as',
+      })
+    }
+    if (index === 1) {
+      setCurrent({
+        id: 't2',
+        name: 'Despacito2',
+        singer: 'Luis Fonsi2',
+        cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
+        musicSrc: 'https://res.cloudinary.com/ehsanahmadi/video/upload/v1573550770/Sirvan-Khosravi-Dorost-Nemisham-128_kb8urq.mp3',
+        timestamp: 'as2',
+      })
+    }
+
+    setPlaylist([{
+      id: 't1',
+      name: 'Despacito',
+      singer: 'Luis Fonsi',
+      cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
+      musicSrc: 'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+      timestamp: 'as',
+    },{
+      id: 't2',
+      name: 'Despacito2',
+      singer: 'Luis Fonsi2',
+      cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
+      musicSrc: 'https://res.cloudinary.com/ehsanahmadi/video/upload/v1573550770/Sirvan-Khosravi-Dorost-Nemisham-128_kb8urq.mp3',
+      timestamp: 'as2',
+    },])
+
+
+  };
+
   return (
     <section className={styles.episode}>
       <div className={styles.wrapper}>
@@ -38,11 +85,16 @@ const Episode: React.FC = () => {
                 </div>
               </div>
               <div className={styles.bottom}>
-                <div className={styles.controls}>
+                <div className={styles.controls} onClick={() => onPlaySong(0)}>
                   <span>Слушать</span>
-                  <div className={styles.play}
-                       style={{background: `linear-gradient(140deg, #ED22FF, #F8FF13)`}}>
-                    <span className="icon-play"></span>
+                  <div className={styles.play} style={{background: `linear-gradient(140deg, #ED22FF, #F8FF13)`}}>
+                    <span className="icon-play" />
+                  </div>
+                </div>
+                <div className={styles.controls} onClick={() => onPlaySong(1)}>
+                  <span>Слушать</span>
+                  <div className={styles.play} style={{background: `linear-gradient(140deg, #ED22FF, #F8FF13)`}}>
+                    <span className="icon-play" />
                   </div>
                 </div>
               </div>

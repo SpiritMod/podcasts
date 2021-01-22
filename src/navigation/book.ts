@@ -4,6 +4,6 @@ interface IBook {
 
 export const book: IBook = {
   'root': '/',
-  'podcast': '/podcast',
+  'podcast': '/podcast/',
   'episode': '/podcast/episode',
 };

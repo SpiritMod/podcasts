@@ -53,7 +53,8 @@ const data = {
       podcast: 'Еще подкаст',
       imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
     },
-  ]
+  ],
+
 }
 
 

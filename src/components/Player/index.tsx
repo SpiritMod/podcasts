@@ -91,7 +91,7 @@ const Player: React.FC = () => {
     showPlayMode: false,
     showThemeSwitch: false,
     showReload: false,
-    remember: true,
+    remember: false,
     preload: true,
     defaultPlayIndex: 0,
     defaultPlayMode: 'orderLoop',

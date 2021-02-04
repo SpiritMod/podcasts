@@ -195,6 +195,9 @@
     background-color: #828282;
     border-radius: 50%;
     font-size: 15px;
+    > span {
+      margin-left: 3px;
+    }
   }
 
   .play {

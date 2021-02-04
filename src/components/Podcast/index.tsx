@@ -1,15 +1,17 @@
 //core
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 // styles
 import styles from './styles/styles.module.scss';
 import clsListenUs from '../ListenUs/styles/styles.module.scss';
 
 // components
-import ListenUs from "../ListenUs";
-import LoadMoreLink from "../LoadMoreLink";
-import Track from './Track';
-import Sort from '../Sort';
+import ListenUs from '../ListenUs';
+import Loader from '../Loader';
+import Error from '../Error';
+import { usePodcastPage } from '../../stores/podcastPage/usePodcastPage';
+import Episodes from './Episodes';
 
 //import ITrack from './Track';
 
@@ -22,85 +24,46 @@ import Sort from '../Sort';
 //   playlist: [typeof ITrack],
 // }
 
-const data = {
-  id: '1',
-  title: 'Еще подкаст',
-  description: 'Welcome on board! Здесь говорят про Counter-strike. Эксперты, аналитики, профессиональные игроки каждые две недели по вторникам в гостях у Степана Шульги обсуждают последние громкие события из мира CS:GO, вспоминают прошлое, размышляют о будущем и просто душевно беседуют. Подписывайтесь, будет интересно.',
-  bgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/bg-podcast.jpg',
-  imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
-  playlist: [
-    {
-      id: '11',
-      title: 'Epizode #1: Астон Вилла удивляет; позор Реала; чемпионская гонка в РПЛ; шальной экспресс на 800 000$',
-      podcast: 'Еще подкаст',
-      imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
-    },
-    {
-      id: '12',
-      title: 'Epizode #2: Астон Вилла удивляет; позор Реала; чемпионская гонка в РПЛ; шальной экспресс на 800 000$',
-      podcast: 'Еще подкаст Еще подкаст Еще подкаст',
-      imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
-    },
-    {
-      id: '13',
-      title: 'Epizode #3: Астон Вилла удивляет; позор Реала; чемпионская гонка в РПЛ; шальной экспресс на 800 000$',
-      podcast: 'Еще подкаст',
-      imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
-    },
-    {
-      id: '14',
-      title: 'Epizode #4: Астон Вилла удивляет; позор Реала; чемпионская гонка в РПЛ; шальной экспресс на 800 000$',
-      podcast: 'Еще подкаст',
-      imgUrl: 'https://test.fmw.pm/podcasts/public/images/podcast/img-4.png',
-    },
-  ],
-
+export interface IUserPublicRouteParams {
+  slug: string;
 }
 
 
 const Podcast: React.FC = () => {
+  const { slug } = useParams<IUserPublicRouteParams>();
 
-  const { title, description, playlist, bgUrl, imgUrl } = data;
+  const { isFetching, error, data } = usePodcastPage(slug);
 
-  const tracks = playlist.map((item) => {
-    return <Track key={item.id} {...item} />
-  })
+  const errorMessage = !isFetching && error && <Error message={error.message}/>;
+
+  const loader = isFetching && <Loader/>;
+
+  const podcast = data && <section className={styles.section}>
+    <div className={styles.podcast}>
+      <div className={styles.bg} style={{ backgroundImage: `url('${data.bgUrl}')`}} />
+      <div className={styles.wrap}>
+        <div className={styles.album}>
+          <img src={data.imgUrl} alt="img" />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <div className={styles.title}>{data.title}</div>
+            <div className={styles.description}>{data.description}</div>
+          </div>
+          <div className={styles.subscribe}>
+            <ListenUs className={clsListenUs.small} title={false}  />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>;
 
   return (
     <>
-      <section className={styles.section}>
-        <div className={styles.podcast}>
-          <div className={styles.bg} style={{ backgroundImage: `url('${bgUrl}')`}} />
-          <div className={styles.wrap}>
-            <div className={styles.album}>
-              <img src={imgUrl} alt="img" />
-            </div>
-            <div className={styles.content}>
-              <div className={styles.header}>
-                <div className={styles.title}>{title}</div>
-                <div className={styles.description}>{description}</div>
-              </div>
-              <div className={styles.subscribe}>
-                <ListenUs className={clsListenUs.small} title={false}  />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.playlist}>
-          <div className={styles.playlist_header}>
-            <div className={styles.playlist_title}>Эпизоды</div>
-              <Sort/>
-          </div>
-          <div className={styles.playlist_content}>
-            {tracks}
-          </div>
-          <div className={styles.playlist_footer}>
-            <LoadMoreLink label={'Предыдущие выпуски'}/>
-          </div>
-        </div>
-      </section>
+      { errorMessage }
+      { loader }
+      { podcast }
+      <Episodes />
     </>
   )
 };

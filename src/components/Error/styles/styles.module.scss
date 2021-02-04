@@ -1,0 +1,31 @@
+@import '../../../styles/settings/settings';
+@import '../../../styles/tools/media';
+
+.error {
+  margin: 16px 0;
+  &__content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  &__image {
+    height: 60px;
+    margin-bottom: 16px;
+    img {
+      height: 100%;
+      margin: auto;
+    }
+  }
+  &__description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: center;
+    color: #fff;
+  }
+}
+
+//  @include media('screen', '<768px') {
+//    padding: 10px 0;
+//  }

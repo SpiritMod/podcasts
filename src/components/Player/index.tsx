@@ -10,6 +10,7 @@ import 'react-jinke-music-player/assets/index.css';
 import './styles/player.scss';
 
 import iconLoading from './icons/spinner.svg';
+//import { useThrottle } from "@react-hook/throttle";
 
 /*export interface ISong {
   id?: string,
@@ -55,8 +56,14 @@ const Player: React.FC = () => {
   const [audioList, setAudioLists] = useState<IPlaylistDataItem[]>([]);
   const [playIndex, setPlayIndex] = useState<number>(0);
   const [instance, setInstance] = useState<any>(null);
+  //const [playerVolume, setPlayerVolume] = useThrottle(volume, 1000);
 
+  // update volume
+  // useEffect(() => {
+  //   setVolume(playerVolume);
+  // }, [playerVolume]);
 
+  // update playlist
   useEffect(() => {
     setAudioLists(playlist);
   }, [playlist]);
@@ -73,10 +80,13 @@ const Player: React.FC = () => {
     //instance.updatePlayIndex(2);
   };
 
-  const onAudioVolumeChange = (volume: number) => {
-    console.log('volume: ', volume);
-    setVolume(volume);
-  }
+  const onAudioVolumeChange = useCallback(
+    (volume) => {
+      console.log('volume: ', volume);
+      setVolume(volume);
+    },
+    []
+  );
 
   const onPlayIndexChange = (playIndex: number) => {
     setPlayIndex(playIndex);
@@ -85,7 +95,7 @@ const Player: React.FC = () => {
 
   const defaultOptions: ReactJkMusicPlayerProps = {
     mode: 'full',
-    defaultVolume: volume,
+    defaultVolume: 1,
     autoPlay: audioList.length === 1,
     showDownload: false,
     showPlayMode: false,
@@ -131,17 +141,16 @@ const Player: React.FC = () => {
       defaultPlayIndex: playIndex,
       autoPlay: !!current,
       audioLists: audioList,
+      defaultVolume: Math.sqrt(volume),
     }
-  }, [audioList]);
+  }, [audioList, volume]);
 
-  // play new audio & volume
+  // play new audio
   useEffect(() => {
     if (instance !== null) {
-      instance.volume = volume;
       instance.updatePlayIndex(playIndex);
     }
-  }, [playIndex, volume]);
-
+  }, [playIndex]);
 
   return (
     <>

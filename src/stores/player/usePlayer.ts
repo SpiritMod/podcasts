@@ -31,12 +31,10 @@ export const usePlayer = () => {
   useEffect(() => {
     let volume = 1;
     if (typeof localStorage.getItem('playerVolume') === 'string') {
-      const playerVolume = JSON.parse(localStorage.getItem('playerVolume') || '{}');
-      volume = playerVolume;
+      volume = JSON.parse(localStorage.getItem('playerVolume') || '{}');
       setVolume(volume);
     }
   }, []);
-
 
 
   return {

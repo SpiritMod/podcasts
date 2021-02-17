@@ -1,5 +1,7 @@
+//core
 import React from 'react';
 
+//styles
 import classes from './styles/styles.module.scss';
 
 import img from '../../assets/images/error.svg';

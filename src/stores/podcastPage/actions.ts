@@ -1,15 +1,26 @@
-// Types
+//core
 import { Dispatch } from 'redux';
+
+// api
 import { get } from '../../API';
-import { podcastPage } from '../API';
-import {IPodcastPageDataItem, types} from './types';
+import { podcastPage, podcastPlaylist } from '../API';
+
+// Types
+import {IPodcastPageDataItem, IPodcastPlaylistDataItem, types} from './types';
 
 export const podcastPageActions = Object.freeze({
 
   // Sync
-  setData: (payload: IPodcastPageDataItem) => {
+  setData: (payload: IPodcastPlaylistDataItem) => {
     return {
       type: types.PODCAST_PAGE_SET_DATA,
+      payload
+    }
+  },
+
+  setPlaylistData: (payload: IPodcastPageDataItem[]) => {
+    return {
+      type: types.PODCAST_PLAYLIST_SET_DATA,
       payload
     }
   },
@@ -34,7 +45,7 @@ export const podcastPageActions = Object.freeze({
     }
   },
 
-  // Async
+  // Async Podcast Page Data
   getData: (slug: string) => async (dispatch: Dispatch) => {
     dispatch({
       type: types.PODCAST_PAGE_FETCH
@@ -46,7 +57,7 @@ export const podcastPageActions = Object.freeze({
       const response: any = await get(`${podcastPage}${slug}`);
 
       if (response.status === 200) {
-        const { results } = response.data;
+        const results = await response.json();
 
         dispatch(podcastPageActions.setData(results));
       } else {
@@ -60,5 +71,33 @@ export const podcastPageActions = Object.freeze({
     }
 
     dispatch(podcastPageActions.stopFetching());
-  }
+  },
+
+  // Async Podcast Playlist Data
+  getPlaylistData: (slug: string) => async (dispatch: Dispatch) => {
+    dispatch({
+      type: types.PODCAST_PLAYLIST_FETCH
+    });
+
+    dispatch(podcastPageActions.startFetching());
+
+    try {
+      const response: any = await get(`${podcastPlaylist}${slug}`);
+
+      if (response.status === 200) {
+        const results = await response.json();
+
+        dispatch(podcastPageActions.setPlaylistData(results));
+      } else {
+        const error = {
+          status: response.status
+        };
+        dispatch(podcastPageActions.setFetchingError(error));
+      }
+    } catch (error) {
+      dispatch(podcastPageActions.setFetchingError(error));
+    }
+
+    dispatch(podcastPageActions.stopFetching());
+  },
 });

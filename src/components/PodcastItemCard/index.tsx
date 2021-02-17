@@ -1,29 +1,20 @@
 //core
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { IPodcastSliderDataItem } from '../../stores/podcastSlider/types';
 
 //styles
 import styles from './styles/styles.module.scss';
 
-
 // types
 interface IPodcastItemCard {
-  data: {
-    id: string,
-    //url: string;
-    colorFirst: string,
-    colorSecond: string,
-    imgUrl: string,
-    title: string,
-    description: string,
-    children?: React.ReactNode,
-  }
+  data: IPodcastSliderDataItem,
 }
 
 const PodcastItemCard: React.FC<IPodcastItemCard> = ({data}) => {
   return (
     <div className={styles.card}>
-      <Link to="/podcast" className={styles.content} style={{ background: `linear-gradient(to bottom, ${data.colorFirst}, ${data.colorSecond})`}}>
+      <Link to={`/podcast/${data.slug}`} className={styles.content} style={{ background: `linear-gradient(to bottom, ${data.colorFirst}, ${data.colorSecond})`}}>
         <div className={styles.img}>
           <img src={data.imgUrl} alt="img"/>
         </div>

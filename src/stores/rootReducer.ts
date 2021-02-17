@@ -2,14 +2,20 @@
 import { combineReducers } from 'redux';
 
 // Reducers
-import {exampleReducer as example} from './example/reducer';
 import {playerReducer as player} from './player/reducer';
-import {podcastsReducer as podcasts} from './podcasts/reducer';
-import {podcastPageReducer as podcastPage} from './podcastPage/reducer';
+import {podcastPageReducer as podcast} from './podcastPage/reducer';
+import {podcastSliderReducer as podcastSlider} from './podcastSlider/reducer';
+import {episodeReducer as episode} from './episode/reducer';
+import {episodesReducer as episodes} from './episodes/reducer';
+import {recommendedReducer as recommended} from './recommended/reducer';
+import {socialReducer as social} from './social/reducer';
 
 export const rootReducer = combineReducers({
   player,
-  podcasts,
-  podcastPage,
-  example,
+  episodes,
+  episode,
+  podcast,
+  podcastSlider,
+  recommended,
+  social,
 });

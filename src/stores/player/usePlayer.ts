@@ -16,7 +16,7 @@ type playerState = {
 export const usePlayer = () => {
   const dispatch = useDispatch();
 
-  const { volume, current, playlist } = useSelector((state: playerState) => state.player);
+  const { volume, current, list } = useSelector((state: playerState) => state.player);
 
   const setPlaylist = (data: IPlaylistDataItem[]) => dispatch(playerActions.setPlaylistData(data));
   const updatePlaylist = (data: IPlaylistDataItem[]) => dispatch(playerActions.updatePlaylistData(data));
@@ -40,7 +40,7 @@ export const usePlayer = () => {
   return {
     current,
     volume,
-    playlist,
+    list,
     setVolume,
     setCurrent,
     setPlaylist,

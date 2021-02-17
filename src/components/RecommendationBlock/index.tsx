@@ -8,6 +8,11 @@ import RecommendationItem from '../RecommendationItem';
 // styles
 import styles from './styles/styles.module.scss';
 import './styles/slider-theme.scss';
+import Error from "../Error";
+import Loader from "../Loader";
+
+//hooks
+import { useRecommended } from '../../stores/recommended/useRecommended'
 
 
 // test data
@@ -66,6 +71,13 @@ const data = [
 ];
 
 const RecommendationBlock: React.FC = () => {
+
+  const { isFetching, error, data } = useRecommended();
+
+  const errorMessage = !isFetching && error && <Error message={'error.message'}/>;
+
+  const loader = isFetching && <Loader/>;
+
   const settings = {
     accessibility: false,
     arrows: true,
@@ -89,7 +101,7 @@ const RecommendationBlock: React.FC = () => {
   };
 
   // slides
-  const slides = data.map((item)  => {
+  const slides = data && data.map((item)  => {
     return (
       <div key={item.id} className={styles.slide}>
         <RecommendationItem data={item} />
@@ -104,14 +116,19 @@ const RecommendationBlock: React.FC = () => {
     </Slider>
   );
 
+  const recommendation = <div className={styles.recommendation}>
+    <div className={styles.title}>Стоит послушать</div>
+    <div className={styles.content}>
+      {slider}
+    </div>
+  </div>;
 
   return (
-    <div className={styles.recommendation}>
-      <div className={styles.title}>Стоит послушать</div>
-      <div className={styles.content}>
-        {slider}
-      </div>
-    </div>
+    <>
+      { errorMessage }
+      { loader }
+      { recommendation }
+    </>
   );
 };
 

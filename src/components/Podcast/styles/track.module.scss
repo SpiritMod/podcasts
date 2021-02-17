@@ -5,6 +5,7 @@
 @import "../../../assets/fonts/icomoon/variables";
 
 .track {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,10 +16,26 @@
     padding: 20px 0;
   }
 
-  &:hover {
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #1a1a1a 34.38%, #1a1a1a 64.58%, rgba(255, 255, 255, 0) 100%);
+    transition: opacity 0.2s ease 0s;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
     .play_pause {
-      background: linear-gradient(140deg, var(--color-b), var(--color-a));
+      background: linear-gradient(140deg, var(--color-playlist-b), var(--color-playlist-a));
     }
   }
 
@@ -203,7 +220,6 @@
   .play {
     font-size: 16px;
     margin-left: 20px;
-
     @include media('screen', '<768px') {
       display: none;
     }

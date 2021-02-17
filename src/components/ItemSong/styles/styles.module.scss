@@ -47,6 +47,8 @@
     height: 100%;
     padding: 45px;
 
+    transition: border-color .3s ease-in;
+
     @include media('screen', '<1260px') {
       padding: 30px;
     }
@@ -72,19 +74,24 @@
     width: 100%;
     font-size: 0;
 
+    flex: 1 0 243px;
+
     @include media('screen', '<1260px') {
       margin-right: 25px;
       max-width: 200px;
+      flex: 1 0 200px;
     }
 
     @include media('screen', '<1024px') {
       max-width: 140px;
+      flex: 1 0 140px;
     }
 
     @include media('screen', '<768px') {
       margin-right: 0;
       margin-bottom: 12px;
       max-width: 100%;
+      flex: 1;
     }
 
     img {
@@ -103,15 +110,22 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    width: 100%;
     flex: 1;
+    overflow: hidden;
   }
 
-  .album {
+  .subtitle {
     display: block;
     color: #4F4F4F;
     font-weight: 900;
     font-size: 18px;
     margin-bottom: 10px;
+    width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     @include media('screen', '<1260px') {
       font-size: 16px;
@@ -127,7 +141,7 @@
     }
   }
 
-  .name {
+  .title {
     color: #fff;
     font-weight: 900;
     display: block;
@@ -135,6 +149,10 @@
     margin-bottom: 20px;
     cursor: pointer;
     transition: all .2s ease-in;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:hover {
       transition: all .2s ease-in;
@@ -263,7 +281,7 @@
         }
       }
 
-      .album {
+      .subtitle {
         font-size: 22px;
         margin-bottom: 15px;
 
@@ -281,7 +299,7 @@
         }
       }
 
-      .name {
+      .title {
         font-size: 36px;
         margin-bottom: 30px;
 
@@ -329,124 +347,129 @@
 
   &[data-key="2"] {
 
-      .content {
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 42px;
+    .content {
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px;
 
-        @include media('screen', '<1260px') {
-          padding: 30px;
-        }
+      @include media('screen', '<1260px') {
+        padding: 30px;
+      }
 
-        @include media('screen', '<1024px') {
-          padding: 20px;
-        }
+      @include media('screen', '<1024px') {
+        padding: 20px;
+      }
+
+      @include media('screen', '<768px') {
+        padding: 18px 24px;
+      }
+
+      @include media('screen', '<375px') {
+        padding: 12px 15px;
+      }
+    }
+
+    .header {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all .2s ease-in;
+      padding: 42px;
+
+      @include media('screen', '<1260px') {
+        padding: 30px;
+      }
+
+      @include media('screen', '<1024px') {
+        padding: 20px;
+      }
+
+      @include media('screen', '<768px') {
+        position: static;
+        opacity: 1;
+        transform: none;
+        top: 0;
+        padding: 0;
+      }
+    }
+
+    .img {
+      margin-right: 0;
+      max-width: 100%;
+
+      @include media('screen', '<768px') {
+        margin-bottom: 12px;
+      }
+
+    }
+
+    .info {
+      justify-content: flex-end;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .subtitle {
+      color: #BDBDBD;
+
+      @include media('screen', '<768px') {
+        color: #4f4f4f;
+      }
+    }
+
+    .description {
+      margin-bottom: 10px;
+      color: #BDBDBD;
+      height: 64px;
+      overflow: hidden;
+
+      @include media('screen', '<768px') {
+        color: #828282;
+        height: 40px;
+      }
+
+      &:after {
+        display: none;
 
         @include media('screen', '<768px') {
-          padding: 18px 24px;
-        }
-
-        @include media('screen', '<375px') {
-          padding: 12px 15px;
+          display: block;
         }
       }
+    }
+
+    &:hover {
 
       .header {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        left: 0;
-        transform: translateY(-50%);
-        opacity: 0;
+        opacity: 1;
         transition: all .2s ease-in;
-        padding: 42px;
+      }
 
-        @include media('screen', '<1260px') {
-          padding: 30px;
-        }
-
-        @include media('screen', '<1024px') {
-          padding: 20px;
-        }
-
-        @include media('screen', '<768px') {
-          position: static;
-          opacity: 1;
-          transform: none;
+      .content {
+        &:before {
+          content: '';
+          position: absolute;
           top: 0;
-          padding: 0;
-        }
-      }
-
-     .img {
-        margin-right: 0;
-        max-width: 100%;
-
-        @include media('screen', '<768px') {
-          margin-bottom: 12px;
-        }
-
-      }
-
-      .info {
-        justify-content: flex-end;
-        z-index: 1;
-      }
-
-      .album {
-        color: #BDBDBD;
-
-        @include media('screen', '<768px') {
-          color: #4f4f4f;
-        }
-      }
-
-      .description {
-        margin-bottom: 10px;
-        color: #BDBDBD;
-        height: 64px;
-        overflow: hidden;
-
-        @include media('screen', '<768px') {
-          color: #828282;
-          height: 40px;
-        }
-
-        &:after {
-          display: none;
-
-          @include media('screen', '<768px') {
-            display: block;
-          }
-        }
-      }
-
-      &:hover {
-
-        .header {
-          opacity: 1;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          background-color: rgba(21, 21, 21, 0.9);
+          border-radius: 22px;
           transition: all .2s ease-in;
-        }
 
-        .content {
-          &:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            background-color: rgba(21, 21, 21, 0.9);
-            border-radius: 22px;
-            transition: all .2s ease-in;
-
-            @include media('screen', '<1024px') {
-              border-radius: 12px;
-            }
+          @include media('screen', '<1024px') {
+            border-radius: 12px;
+          }
+          @include media('screen', '<768px') {
+            opacity: 0;
+            pointer-events: none;
           }
         }
       }
     }
+  }
 
   &[data-key="4"] {
 
@@ -483,6 +506,9 @@
           opacity: 1;
           transition: opacity .3s ease-in;
         }
+        .content {
+          border-color: transparent;
+        }
       }
     }
 
@@ -512,6 +538,8 @@
       background-color: #151515;
       height: 100%;
       padding: 45px;
+
+      transition: border-color .3s ease-in;
 
       @include media('screen', '<1260px') {
         padding: 30px;
@@ -574,14 +602,20 @@
       justify-content: space-between;
       flex: 1;
       height: 100%;
+      width: 100%;
+      overflow: hidden;
     }
 
-    .album {
+    .subtitle {
       display: block;
       color: #4F4F4F;
       font-weight: 900;
       font-size: 18px;
       margin-bottom: 10px;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       @include media('screen', '<1260px') {
         font-size: 16px;
@@ -597,7 +631,7 @@
       }
     }
 
-    .name {
+    .title {
       color: #fff;
       font-weight: 900;
       display: block;
@@ -605,6 +639,10 @@
       margin-bottom: 20px;
       cursor: pointer;
       transition: all .2s ease-in;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       &:hover {
         transition: all .2s ease-in;
@@ -704,7 +742,7 @@
       }
     }
 
-    .play{
+    .play {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -721,10 +759,7 @@
         font-size: 8px
       }
     }
-
-
 }
-
 
 .type_third {
 
@@ -736,6 +771,9 @@
       .border {
         opacity: 1;
         transition: opacity .3s ease-in;
+      }
+      .content {
+        border-color: transparent;
       }
     }
   }
@@ -766,6 +804,8 @@
     background-color: #151515;
     height: 100%;
     padding: 20px 15px;
+
+    transition: border-color .3s ease-in;
 
     @include media('screen', '<1260px') {
       padding: 15px;
@@ -837,7 +877,9 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    width: 100%;
     flex: 1;
+    overflow: hidden;
 
     @include media('screen', '<1024px') {
       display: flex;
@@ -854,16 +896,20 @@
   .header {
     @include media('screen', '<1024px') {
       margin-right: 10px;
+      overflow: hidden;
     }
   }
 
-  .album {
+  .subtitle {
     display: block;
     color: #4F4F4F;
     font-weight: 900;
     font-size: 14px;
     margin-bottom: 5px;
 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     @include media('screen', '<1260px') {
       font-size: 12px;
@@ -879,7 +925,7 @@
     }
   }
 
-  .name {
+  .title {
     color: #fff;
     font-weight: 900;
     display: block;
@@ -887,6 +933,10 @@
     transition: all .2s ease-in;
     font-size: 16px;
     margin-bottom: 10px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:hover {
       transition: all .2s ease-in;
@@ -1068,7 +1118,7 @@
       }
     }
 
-    .album {
+    .subtitle {
       font-size: 18px;
       margin-bottom: 10px;
 
@@ -1077,7 +1127,7 @@
       }
     }
 
-    .name {
+    .title {
       font-size: 24px;
       margin-bottom: 20px;
 

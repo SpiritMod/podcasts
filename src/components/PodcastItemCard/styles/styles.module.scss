@@ -51,6 +51,9 @@
       [class^='icon-'] {
         transition: all .2s ease-in-out;
         transform: translateX(5px);
+        @include media('screen', '<768px') {
+          transform: translateY(-50%) translateX(5px);
+        }
       }
     }
   }
@@ -98,6 +101,8 @@
     margin-top: 0;
     margin-left: 10px;
     width: 100%;
+    overflow: hidden;
+    padding-right: 25%;
   }
 
   @include media('screen', '<768px') {
@@ -134,6 +139,9 @@
   font-weight: 700;
   margin-bottom: 5px;
   margin-right: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @include media('screen', '<768px') {
     margin-right: 0;
@@ -143,4 +151,7 @@
 .description {
   font-size: 12px;
   font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

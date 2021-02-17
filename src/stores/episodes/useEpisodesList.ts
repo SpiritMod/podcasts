@@ -1,0 +1,50 @@
+// core
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+// actions
+import { episodesActions } from "./actions";
+
+// hooks
+import {usePlayer} from "../player/usePlayer";
+
+// types
+import { IEpisodesState } from "./types";
+type storeState = {
+  episodes: IEpisodesState
+}
+
+export const useEpisodesList = () => {
+  const dispatch = useDispatch();
+
+  const { list, setPlaylist } = usePlayer();
+  const { isFetching, error, data } = useSelector((state: storeState) => state.episodes);
+
+  useEffect(() => {
+    if (data === null) {
+      dispatch(episodesActions.getData(1));
+    }
+  },[]);
+
+  useEffect(() => {
+    if (!!data) {
+      const tracks = data.items.map((item) => {
+        return item.track
+      }, []);
+
+      //  set playlist to player
+      !list.length && setPlaylist(tracks);
+    }
+  },[data?.items]);
+
+  const loadMore = (page: number) => {
+    dispatch(episodesActions.getData(page));
+  };
+
+  return {
+    isFetching,
+    error,
+    data,
+    loadMore,
+  }
+}

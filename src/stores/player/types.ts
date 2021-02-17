@@ -14,14 +14,13 @@ export interface IPlaylistDataItem {
   singer:  string,
   cover: string,
   musicSrc: string,
-  timestamp: string,
 }
 
 // state
 export interface IPlayerState {
   readonly current: IPlaylistDataItem | null,
   readonly volume: number,
-  readonly playlist: IPlaylistDataItem[] | [],
+  readonly list: IPlaylistDataItem[] | [],
 }
 
 

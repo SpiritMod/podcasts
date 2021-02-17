@@ -17,7 +17,7 @@ export default interface IAction<T> extends Action<string> {
    *
    * By convention, if error is true, the payload SHOULD be an error object. This is akin to rejecting a promise with an error object.
    */
-  readonly payload?: T;
+  readonly payload?: any;
   /*
    * (optional)
    * The optional error property MAY be set to true if the action represents an error.

@@ -1,99 +1,77 @@
 //core
-import React from "react";
+import React, {useEffect} from "react";
+import {useHistory, useParams} from "react-router-dom";
 import Tabs, {TabPane} from 'rc-tabs';
-import {Scrollbars} from 'react-custom-scrollbars';
+import ReactHtmlParser from 'react-html-parser';
 
 //components
 import ListenUs from "../ListenUs";
 import CustomScrollbars from "../CustomScrollbars";
-//import LoadMoreLink from "../LoadMoreLink";
 
 
 //styles
 import styles from './styles/styles.module.scss';
-import './styles/tabs.scss';
 import clsListenUs from "../ListenUs/styles/styles.module.scss";
+import './styles/tabs.scss';
 
 // hooks
-import {usePlayer} from "../../stores/player/usePlayer";
+import { usePlayer } from "../../stores/player/usePlayer";
+import { useEpisode } from "../../stores/episode/useEpisode";
+import Error from "../Error";
+import Loader from "../Loader";
+import {book} from "../../navigation/book";
 
+
+// types
+export interface IUserPublicRouteParams {
+  id: string;
+}
 
 const Episode: React.FC = () => {
+  const history = useHistory();
+
+  const { id } = useParams<IUserPublicRouteParams>();
+
+  const { isFetching, error, data } = useEpisode(id);
+
+  console.log('Episode data: ', data);
 
   const { setCurrent, setPlaylist } = usePlayer();
 
-  const onPlaySong = (index: number) => {
-    if (index === 0) {
-      setCurrent({
-        id: 't1',
-        name: 'Despacito',
-        singer: 'Luis Fonsi',
-        cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
-        musicSrc: 'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
-        timestamp: 'as',
-      })
-    }
-    if (index === 1) {
-      setCurrent({
-        id: 't2',
-        name: 'Despacito2',
-        singer: 'Luis Fonsi2',
-        cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
-        musicSrc: 'https://res.cloudinary.com/ehsanahmadi/video/upload/v1573550770/Sirvan-Khosravi-Dorost-Nemisham-128_kb8urq.mp3',
-        timestamp: 'as2',
-      })
-    }
+  // handlers
+  const handlerClick = (playlist: any, colorFirst: string, colorSecond: string) => {
+    document.documentElement.style.setProperty('--color-player-a', colorFirst);
+    document.documentElement.style.setProperty('--color-player-b', colorSecond);
 
-    setPlaylist([{
-      id: 't1',
-      name: 'Despacito',
-      singer: 'Luis Fonsi',
-      cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
-      musicSrc: 'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
-      timestamp: 'as',
-    },{
-      id: 't2',
-      name: 'Despacito2',
-      singer: 'Luis Fonsi2',
-      cover: 'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
-      musicSrc: 'https://res.cloudinary.com/ehsanahmadi/video/upload/v1573550770/Sirvan-Khosravi-Dorost-Nemisham-128_kb8urq.mp3',
-      timestamp: 'as2',
-    },])
+    setPlaylist(playlist);
+    setCurrent(playlist[0]);
+  }
 
+  const errorMessage = !isFetching && error && <Error message={error.message}/>;
 
-  };
+  const loader = isFetching && <Loader/>;
 
-  return (
-    <section className={styles.episode}>
+  const episode = data && <section className={styles.episode}>
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div className={styles.block}>
             <div className={styles.album}>
-              <img src="https://test.fmw.pm/podcasts/public/images/podcast/img-4.png" alt="img"/>
+              <img src={data.track.cover} alt={data.title} />
             </div>
             <div className={styles.visual}>
               <div className={styles.top}>
                 <div className={styles.data}>
-                  <div className={styles.title}>Epizode #1</div>
-                  <div className={styles.subtitle}>Еще подкаст</div>
-                  <div className={styles.description}>Друзья, всем привет!
-                    Это подкаст от компании Parimatch. Будем говорить о спорте, вернее о том, что сейчас осталось от
-                    этого спорта.
-                    Нам, как вы понимаете, от этого факта не весело, но это не означает, что мы не продолжаем улыбаться
-                    :)
+                  <div className={styles.title}>{data.title}</div>
+                  <div className={styles.subtitle}>{data.subtitle}</div>
+                  <div className={styles.description}>
+                    { ReactHtmlParser(data.description) }
                   </div>
                 </div>
               </div>
               <div className={styles.bottom}>
-                <div className={styles.controls} onClick={() => onPlaySong(0)}>
+                <div className={styles.controls} onClick={() => handlerClick([{...data.track}], data.colorFirst, data.colorSecond)}>
                   <span>Слушать</span>
-                  <div className={styles.play} style={{background: `linear-gradient(140deg, #ED22FF, #F8FF13)`}}>
-                    <span className="icon-play" />
-                  </div>
-                </div>
-                <div className={styles.controls} onClick={() => onPlaySong(1)}>
-                  <span>Слушать</span>
-                  <div className={styles.play} style={{background: `linear-gradient(140deg, #ED22FF, #F8FF13)`}}>
+                  <div className={styles.play} style={{background: `linear-gradient(140deg, ${data.colorFirst}, ${data.colorSecond})`}}>
                     <span className="icon-play" />
                   </div>
                 </div>
@@ -106,175 +84,49 @@ const Episode: React.FC = () => {
         </div>
         <div className={styles.info}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="EPISODE DETAILS" key="1">
-              <div className="s-content">
-                <h3>Episode Summary</h3>
-                <p>Друзья, всем привет! Это подкаст от компании Parimatch. Будем говорить о спорте, вернее о том, что
-                  сейчас осталось от этого спорта. Нам, как вы понимаете, от этого факта не весело, но это не означает,
-                  что мы не продолжаем улыбаться :)</p>
-
-                <h3>Epizode notes</h3>
-                <p>Инфоповоды, упомянутые в выпуске "На дистанции" #1:</p>
-
-                <ul>
-                  <li>Sky Sports начал показывать обзоры матчей чемпионата Беларуси;</li>
-                  <li>Выставочные турниры без зрителей пройдут в мае в Германии и Франции;</li>
-                  <li>«Барса» будет играть без зрителей до февраля 2021-го при худшем прогнозируемом сценарии;</li>
-                  <li>Virtus.pro победила OG в финале ESL One Los Angeles 2020;</li>
-                  <li>Овечкин сыграет против Уэйна Гретцки;</li>
-                  <li>РПЛ планирует возобновить сезон в период с середины июня по середину июля;</li>
-                  <li>Как делать ставки в CS:GO</li>
-                </ul>
-
-                <h3 className="upper">EPISODE CONTRIBUTORS</h3>
-
-                <p>Ведущий: Имя <br/> Гость: Имя Фамилия</p>
-
-                <ol>
-                  <li>Sky Sports начал показывать обзоры матчей чемпионата Беларуси;</li>
-                  <li>Выставочные турниры без зрителей пройдут в мае в Германии и Франции;</li>
-                  <li>«Барса» будет играть без зрителей до февраля 2021-го при худшем прогнозируемом сценарии;</li>
-                  <li>Virtus.pro победила OG в финале ESL One Los Angeles 2020;</li>
-                  <li>Овечкин сыграет против Уэйна Гретцки;</li>
-                  <li>РПЛ планирует возобновить сезон в период с середины июня по середину июля;</li>
-                  <li>Как делать ставки в CS:GO</li>
-                </ol>
-
-                <h1>Title h1</h1>
-                <h2>Title h2</h2>
-                <h3>Title h3</h3>
-                <h4>Title h4</h4>
-                <h5>Title h5</h5>
-                <h6>Title h6</h6>
-
-
-                <p className="s-episode-details">
-                  00:07 - Intro 01:32 - Zeus и коронавирус 02:59 - Шоу-матч NAVI2010 без шансов для «старичков»? <br/>
-                  04:25 - Как коронакризис повлиял на бизнесы Zeus<br/>
-                  06:40 - Какой турнир Zeus проведёт первым после завершения карантина<br/>
-                  10:20 - Z-Arena - давняя мечта Zeus<br/>
-                  12:28 - О чем ещё мечтает Zeus<br/>
-                  15:29 - Как взрастить киберспортсмена<br/>
-                  17:35 - Какими качествами нужно обладать, чтобы стать киберспортсменом<br/>
-                  19:28 - Основная проблема киберспортсменов<br/>
-                  20:41 - Сколько раз Zeus хотел посадить «на лавку» своих тиммейтов<br/>
-                  24:33 - 6 игрок - элемент давления или эффективный способ замен<br/>
-                  26:43 - Petr1k шутит про то, что кнут - лучшая мотивация<br/>
-                  27:30 - Перспективы Edward после возвращения на киберспортивную арену<br/>
-                  31:39 - F0rest - исключение из правил?<br/>
-                  32:50 - Что помогло Zeus выиграть свой последний Major<br/>
-                  40:23 - Испытывал ли Zeus страх в финале Major?<br/>
-                  42:40 - Zeus в роли тренера. Миф или реальность?<br/>
-                  47:00 - Что думает Zeus про BoombI4 в роли капитана<br/>
-                  49:13 - Что с Pro100?<br/>
-                  52:43 - Бизнес-стратегия Zeus для финансового успеха киберспортивного клуба<br/>
-                  57:17 - Какую часть дохода организациям приносят стикеры?<br/>
-                  01:00:00 - Что происходит с игроками после победы на нескольких турнирах<br/>
-                  01:00:46 - Zoner в академии Forze, баг и баны тренеров<br/>
-                  01:05:52 - Подписал бы Zeus в свою команду тренера, получившего бан?<br/>
-                  01:10:15 - Какого это быть на баннерах по всей стране
-                </p>
-              </div>
-            </TabPane>
-            <TabPane tab="TRANSCRIPT" key="2">
-              <CustomScrollbars>
-                <>
-                  <p>
-                    <strong>Друзья, всем привет! Это подкаст от компании Parimatch. </strong>
-                    Будем говорить о спорте, вернее о том, что сейчас осталось от этого спорта. Нам, как вы понимаете,
-                    от
-                    этого факта не весело, но это не
-                    означает, что мы не продолжаем улыбаться.
-                  </p>
-
-                  <p>
-                    <strong>Почему мы делаем подкаст?</strong> Есть такая фраза, она очень актуальна на карантине, если
-                    вы
-                    давно хотели
-                    чем-то заняться и вам не хватало времени, то сейчас вы точно поняли, что дело не во времени. Мы
-                    давно
-                    хотели записать подкаст, говорить о спорте, говорить о спорте с точки зрения беттинга, о каких-то
-                    интересных фактах, веселиться, общаться с вами. Одним словом, подкаст для чего, для того, чтобы
-                    слушать.
-                    Мы считаем, что на карантине, а все же повсеместно соблюдают карантин, да? То есть вы в маске, моете
-                    руки антисептиком, кашляете в локоть и вот это вот все. На карантине лучше всего слушать и узнавать
-                    как
-                    же у нас дела со спортом.
-                  </p>
-                  <p>
-                    Вы знаете, весело. На прошлой неделе, а наши подкасты будут иметь недельную основу, мы всегда будем
-                    говорить о том, что происходило на прошлой неделе, самое большое количество ставок принял,
-                    естественно,
-                    белорусский футбол. Очаг сопротивления коронавирусу во главе с Александром Григорьевичем Лукашенко
-                    сопротивляется, как может. Если вы не знали, даже британский легендарный телеканал Sky начал
-                    показывать
-                    обзоры белорусского футбола. Так вот, на Parimatch вы можете поставить на Высшую лигу Беларуси по
-                    футболу, на резервную лигу и даже на Премьер-лигу, в том числе. Кстати, самое большое количество
-                    ставок
-                    на прошлой неделе приняли на матче Шахтер Солигорск - Слуцк и, кстати, на этом матче выиграли наши
-                    клиенты, что приятно. Вы думали, что это самая большая встреча? Но нет, БАТЭ и Торпедо-БелАЗ собрали
-                    рекордный вообще для всего карантина оборот. Не буду говорить, как закончилась эта встреча, скажу
-                    вам
-                    просто, многие конечно опечалились.
-                  </p>
-
-                  <p>По поводу футбола в целом, кроме Беларуси можно принимать ставки и соответственно ставить на
-                    Никарагуа.
-                    Если вы не знаете где это, это в Центральной Америке чуть ниже Мексики. Ребята тоже не ушли на
-                    карантин,
-                    продолжают играть. Население в стране небольшое, всего 6 миллионов человек. Не могу сказать, что по
-                    накалу
-                  </p>
-                  <p>
-                    <strong>Почему мы делаем подкаст?</strong> Есть такая фраза, она очень актуальна на карантине, если
-                    вы
-                    давно хотели
-                    чем-то заняться и вам не хватало времени, то сейчас вы точно поняли, что дело не во времени. Мы
-                    давно
-                    хотели записать подкаст, говорить о спорте, говорить о спорте с точки зрения беттинга, о каких-то
-                    интересных фактах, веселиться, общаться с вами. Одним словом, подкаст для чего, для того, чтобы
-                    слушать.
-                    Мы считаем, что на карантине, а все же повсеместно соблюдают карантин, да? То есть вы в маске, моете
-                    руки антисептиком, кашляете в локоть и вот это вот все. На карантине лучше всего слушать и узнавать
-                    как
-                    же у нас дела со спортом.
-                  </p>
-
-                  <p>
-                    Вы знаете, весело. На прошлой неделе, а наши подкасты будут иметь недельную основу, мы всегда будем
-                    говорить о том, что происходило на прошлой неделе, самое большое количество ставок принял,
-                    естественно,
-                    белорусский футбол. Очаг сопротивления коронавирусу во главе с Александром Григорьевичем Лукашенко
-                    сопротивляется, как может. Если вы не знали, даже британский легендарный телеканал Sky начал
-                    показывать
-                    обзоры белорусского футбола. Так вот, на Parimatch вы можете поставить на Высшую лигу Беларуси по
-                    футболу, на резервную лигу и даже на Премьер-лигу, в том числе. Кстати, самое большое количество
-                    ставок
-                    на прошлой неделе приняли на матче Шахтер Солигорск - Слуцк и, кстати, на этом матче выиграли наши
-                    клиенты, что приятно. Вы думали, что это самая большая встреча? Но нет, БАТЭ и Торпедо-БелАЗ собрали
-                    рекордный вообще для всего карантина оборот. Не буду говорить, как закончилась эта встреча, скажу
-                    вам
-                    просто, многие конечно опечалились.
-                  </p>
-
-                  <p>По поводу футбола в целом, кроме Беларуси можно принимать ставки и соответственно ставить на
-                    Никарагуа.
-                    Если вы не знаете где это, это в Центральной Америке чуть ниже Мексики. Ребята тоже не ушли на
-                    карантин,
-                    продолжают играть. Население в стране небольшое, всего 6 миллионов человек. Не могу сказать, что по
-                    накалу
-                  </p>
-                </>
-              </CustomScrollbars>
-              {/*<LoadMoreLink label={'Читать полностью'}/>*/}
-            </TabPane>
+            {
+              data.details.length &&  <TabPane tab="EPISODE DETAILS" key="1">
+                <div className={`${styles.info__content_details} s-content`}>
+                  { ReactHtmlParser(data.details) }
+                </div>
+              </TabPane>
+            }
+            {
+              data.transcript.length && <TabPane tab="TRANSCRIPT" key="2">
+                {
+                  data.transcript.length > 1000 ? (
+                    <CustomScrollbars>
+                      { ReactHtmlParser(data.transcript) }
+                    </CustomScrollbars>
+                  ) : (
+                    <div className={`${styles.info__content_transcript} s-content transcript`}>
+                      {ReactHtmlParser(data.transcript)}
+                    </div>
+                  )
+                }
+              </TabPane>
+            }
           </Tabs>
         </div>
       </div>
       <div className={styles.only_desk}>
         <ListenUs className={clsListenUs.vertical} title={false}/>
       </div>
-    </section>
+    </section>;
+
+  // redirect to 404
+  useEffect(() => {
+    if (!isFetching && error && (error.status === 404)) {
+      history.push(book.notFound)
+    }
+  }, [error, isFetching]);
+
+  return (
+    <>
+      { errorMessage }
+      { loader }
+      { episode }
+    </>
   )
 };
 

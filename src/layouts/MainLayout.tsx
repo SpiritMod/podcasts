@@ -7,13 +7,25 @@ import Header from '../components/Header';
 // styles
 import classes from "./styles/MainLayout.module.scss";
 
-const MainLayout: React.FC = ({ children }) => {
+interface IMainLayout  {
+  children?: React.ReactNode,
+  vertical?: boolean,
+}
+
+const MainLayout: React.FC<IMainLayout> = (props) => {
+
+  const cls = [classes.MainLayout];
+
+  if (props.vertical) {
+    cls.push(classes.MainLayout__vertical);
+  }
+
   return (
     <>
       <Header />
-      <main className={classes.MainLayout}>
+      <main className={cls.join(' ')}>
         <div className="container">
-          {children}
+          {props.children}
         </div>
       </main>
     </>

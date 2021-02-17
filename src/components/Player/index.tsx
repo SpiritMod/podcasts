@@ -51,7 +51,7 @@ const pauseBtn = <span className={'icon-pause'}/>;
 const loadingBtn = <img src={iconLoading} alt="Loading..."/>;
 
 const Player: React.FC = () => {
-  const { volume, current, playlist, setVolume } = usePlayer();
+  const { volume, current, list, setVolume } = usePlayer();
 
   const [audioList, setAudioLists] = useState<IPlaylistDataItem[]>([]);
   const [playIndex, setPlayIndex] = useState<number>(0);
@@ -64,15 +64,16 @@ const Player: React.FC = () => {
   // }, [playerVolume]);
 
   // update playlist
-  useEffect(() => {
-    setAudioLists(playlist);
-  }, [playlist]);
+  // useEffect(() => {
+  //   console.log('playList: ', list);
+  //   setAudioLists(list);
+  // }, [list]);
 
 
   const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
       //dispatch(syncQueue(currentPlayIndex, audioLists))
       console.log('onAudioListsChange: ', currentPlayIndex, audioLists);
-  }, []);
+  }, [list]);
 
   const getAudioInstance = (instance: any) => {
     setInstance(instance)
@@ -133,29 +134,66 @@ const Player: React.FC = () => {
   };
 
   const options = useMemo(() => {
-    const currentIndex = current ? audioList.findIndex(obj => obj.id === current.id) : 0;
-    setPlayIndex(currentIndex);
+    console.log('useMemo current: ', current);
+
+    let autoplay = false;
+
+    if (!!current) {
+      const currentIndex = current && list.findIndex(obj => obj.id === current.id);
+      console.log('currentIndex: ',currentIndex);
+
+      autoplay = true;
+      setPlayIndex(currentIndex);
+
+      if (currentIndex === 0) {
+        instance.play();
+      }
+    }
+
+    console.log('list: ',list);
 
     return {
       ...defaultOptions,
       defaultPlayIndex: playIndex,
-      autoPlay: !!current,
-      audioLists: audioList,
+      autoPlay: autoplay,
+      audioLists: list,
       defaultVolume: Math.sqrt(volume),
     }
-  }, [audioList, volume]);
+  }, [list, volume, current]);
 
   // play new audio
   useEffect(() => {
+    console.log('playIndex: ', playIndex);
     if (instance !== null) {
       instance.updatePlayIndex(playIndex);
     }
   }, [playIndex]);
 
+  // useEffect(() => {
+  //   console.log('1111');
+  //   console.log(current);
+  //   if (!!current) {
+  //     // @ts-ignore
+  //     const hasTrackInPlaylist = playlist.map((item: IPlaylistDataItem) => {
+  //       return current.id === item.id
+  //     });
+  //
+  //     console.log('hasTrackInPlaylist: ', hasTrackInPlaylist);
+  //
+  //     if (hasTrackInPlaylist) {
+  //       const newPlayIndex = playlist?.findIndex(x => x.id === current.id);
+  //
+  //       console.log('newPlayIndex: ', newPlayIndex);
+  //
+  //       setPlayIndex(newPlayIndex);
+  //     }
+  //   }
+  // }, [current]);
+
   return (
     <>
       {
-        <ReactJkMusicPlayer
+        !!list.length && <ReactJkMusicPlayer
           {...options}
           onAudioListsChange={onAudioListsChange}
           onPlayIndexChange={onPlayIndexChange}

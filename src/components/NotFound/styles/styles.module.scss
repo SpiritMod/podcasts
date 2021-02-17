@@ -1,0 +1,54 @@
+@import '../../../styles/tools/media';
+
+.not_found {
+  width: 100%;
+  &__content {
+    width: 100%;
+    max-width: 628px;
+    margin: 0 auto;
+  }
+
+  &__text {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: center;
+    color: #FFFFFF;
+    br {
+      display: none;
+      @include media('screen', '<768px') {
+        display: block;
+      }
+    }
+  }
+
+  &__error {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 260px;
+    line-height: 1;
+    text-align: center;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #f8ff13;
+
+    margin: 40px 0;
+    @include media('screen', '<1025px') {
+      margin: 40px 0;
+    }
+    @include media('screen', '<768px') {
+      font-size: 160px;
+      -webkit-text-stroke-width: 2px;
+      margin: 30px 0;
+    }
+  }
+
+  &__action {
+    > a {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 334px;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 //core
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 // styles
 import styles from './styles/styles.module.scss';
@@ -10,26 +10,17 @@ import clsListenUs from '../ListenUs/styles/styles.module.scss';
 import ListenUs from '../ListenUs';
 import Loader from '../Loader';
 import Error from '../Error';
-import { usePodcastPage } from '../../stores/podcastPage/usePodcastPage';
 import Episodes from './Episodes';
-
-//import ITrack from './Track';
-
-// interface IPodcastPage {
-//   id: string,
-//   title: string,
-//   description: string,
-//   bgUrl: string,
-//   imgUrl: string,
-//   playlist: [typeof ITrack],
-// }
+import { book } from '../../navigation/book';
+import { usePodcastPage } from '../../stores/podcastPage/usePodcastPage';
 
 export interface IUserPublicRouteParams {
   slug: string;
 }
 
-
 const Podcast: React.FC = () => {
+  const history = useHistory();
+
   const { slug } = useParams<IUserPublicRouteParams>();
 
   const { isFetching, error, data } = usePodcastPage(slug);
@@ -58,6 +49,16 @@ const Podcast: React.FC = () => {
     </div>
   </section>;
 
+  //console.log('history: ', history);
+  //console.log('slug: ', slug);
+
+  // redirect to 404
+  useEffect(() => {
+    if (!isFetching && error && (error.status === 404)) {
+      history.push(book.notFound)
+    }
+  }, [error, isFetching]);
+
   return (
     <>
       { errorMessage }
@@ -66,6 +67,6 @@ const Podcast: React.FC = () => {
       <Episodes />
     </>
   )
-};
+}
 
 export default Podcast;

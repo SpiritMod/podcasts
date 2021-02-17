@@ -6,7 +6,7 @@ import IAction from "../../models/IAction";
 const initialState: IPlayerState = {
   current: null,
   volume: 1,
-  playlist: [],
+  list: [],
 };
 
 // type action = {
@@ -17,9 +17,9 @@ const initialState: IPlayerState = {
 export const playerReducer = (state = initialState, {type, payload}: IAction<object>) => {
   switch (type) {
     case types.PLAYER_SET_PLAYLIST:
-      return { ...state, playlist: payload };
+      return { ...state, list: payload };
     case types.PLAYER_UPDATE_PLAYLIST:
-      return { ...state, playlist: [ ...state.playlist, payload ] };
+      return { ...state, list: [ ...state.list, payload ] };
 
     case types.PLAYER_SET_CURRENT:
       return { ...state, current: payload };

@@ -18,4 +18,8 @@
     position: relative;
     z-index: 2;
   }
+
+  &__vertical {
+    justify-content: center;
+  }
 }

@@ -8,6 +8,18 @@ export const playerActions = Object.freeze({
       payload
     }
   },
+  setPlay: (payload: boolean) => {
+    return {
+      type: types.PLAYER_SET_PLAY,
+      payload
+    }
+  },
+  setPlayerInstance: (payload: any) => {
+    return {
+      type: types.PLAYER_SET_INSTANCE,
+      payload
+    }
+  },
   setCurrent: (payload: IPlaylistDataItem) => {
     return {
       type: types.PLAYER_SET_CURRENT,

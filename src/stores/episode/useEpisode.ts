@@ -4,7 +4,7 @@ import { episodeActions } from "./actions";
 import { IEpisodeState } from "./types";
 import {usePlayer} from "../player/usePlayer";
 
-type storeState = {
+export type storeStateEpisode = {
   episode: IEpisodeState
 }
 
@@ -13,7 +13,7 @@ export const useEpisode = (slug: string) => {
 
   const { list, setPlaylist } = usePlayer();
 
-  const { isFetching, error, data } = useSelector((state: storeState) => state.episode);
+  const { isFetching, error, data } = useSelector((state: storeStateEpisode) => state.episode);
 
   useEffect(() => {
     dispatch(episodeActions.getData(slug));

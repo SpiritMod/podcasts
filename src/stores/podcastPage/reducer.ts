@@ -15,6 +15,15 @@ export const podcastPageReducer = (state = initialState, {type, payload}: IActio
       return { ...state, data: payload };
     case types.PODCAST_PLAYLIST_SET_DATA:
       return { ...state, playlist: payload };
+    case types.PODCAST_PLAYLIST_UPDATE_DATA:
+      return {
+        ...state,
+        playlist: {
+          items: state.playlist?.items.concat(payload.items),
+          _links: payload._links,
+          _meta: payload._meta,
+        }
+      };
 
     case types.PODCAST_PAGE_START_FETCHING:
       return { ...state, isFetching: true };

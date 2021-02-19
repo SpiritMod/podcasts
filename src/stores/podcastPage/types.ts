@@ -10,6 +10,7 @@ export enum types {
   PODCAST_PAGE_STOP_FETCHING = 'PODCAST_PAGE_STOP_FETCHING',
   PODCAST_PAGE_SET_FETCHING_ERROR = 'PODCAST_PAGE_SET_FETCHING_ERROR',
   PODCAST_PLAYLIST_SET_DATA = 'PODCAST_PLAYLIST_SET_DATA',
+  PODCAST_PLAYLIST_UPDATE_DATA = 'PODCAST_PLAYLIST_UPDATE_DATA',
 
   // Async
   PODCAST_PAGE_FETCH = 'PODCAST_PAGE_FETCH',
@@ -47,7 +48,7 @@ export interface IItem {
 }
 
 export interface IPlaylistData {
-  items: IItem[],
+  items: IPodcastPlaylistDataItem[],
   _links: {
     self: {
       href: string

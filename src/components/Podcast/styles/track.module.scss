@@ -185,9 +185,13 @@
 
   .controls {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    min-width: 105px;
+    @include media('screen', '<768px') {
+      min-width: auto;
+    }
 
     &.amplitude-paused {
       .play_pause {

@@ -7,6 +7,7 @@ import { episodesList } from '../API';
 
 // Types
 import {IEpisodesData, types} from './types';
+import {playerActions} from "../player/actions";
 
 export const episodesActions = Object.freeze({
 
@@ -62,8 +63,27 @@ export const episodesActions = Object.freeze({
 
         if (results._meta.currentPage > 1) {
           dispatch(episodesActions.updateData(results));
+
+          const tracks = results.items.map((item: any) => {
+            return {
+              ...item.track,
+              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 62)}`
+            }
+          }, []);
+
+          dispatch(playerActions.updatePlaylistData(tracks));
         } else {
           dispatch(episodesActions.setData(results));
+
+          // update
+          const tracks = results.items.map((item: any) => {
+            return {
+              ...item.track,
+              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 997)}`
+            }
+          }, []);
+
+          dispatch(playerActions.updatePlaylistData(tracks));
         }
       } else {
         const error = {

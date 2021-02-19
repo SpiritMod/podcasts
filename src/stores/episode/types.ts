@@ -22,6 +22,7 @@ export interface IEpisodeDataItem {
   colorFirst: string,
   colorSecond: string,
   slug: string;
+  podcastSlug: string,
   created: string,
   track: IPlaylistDataItem,
 }

@@ -13,21 +13,37 @@ import {usePodcastPage} from "../../stores/podcastPage/usePodcastPage";
 import {IUserPublicRouteParams} from "./index";
 import Error from "../Error";
 import Loader from "../Loader";
-import {IPodcastPlaylistDataItem} from "../../stores/podcastPage/types";
+//import {IPodcastPlaylistDataItem} from "../../stores/podcastPage/types";
 
 const Episodes: React.FC = () => {
   const { slug } = useParams<IUserPublicRouteParams>();
 
-  const { isFetching, error, playlist } = usePodcastPage(slug);
+  const { isFetching, error, playlist, loadMorePlaylist } = usePodcastPage(slug);
 
   const errorMessage = !isFetching && error && <Error message={error.message}/>;
 
   const loader = isFetching && <Loader/>;
 
-  const tracks = playlist && playlist.items[0].playlist.map((item) => {
+  const handleLoadMore = (): void => {
+    const page = playlist ? playlist._meta.currentPage + 1 : 1
+    loadMorePlaylist(slug, page);
+  }
+
+  const tracks = playlist && playlist.items.map((item: any) => {
     //console.log('playlist item: ', item);
     return <Track key={item.id} {...item} />
   });
+
+
+  const loadMoreBtn = (
+    <>
+      {
+        !(playlist?._meta.currentPage === playlist?._meta.pageCount) && <div className={styles.playlist_footer}>
+          <LoadMoreLink action={handleLoadMore} label={'Предыдущие выпуски'} />
+        </div>
+      }
+    </>
+  );
 
   const section = (
     <section className={styles.section}>
@@ -39,9 +55,7 @@ const Episodes: React.FC = () => {
         <div className={styles.playlist_content}>
           {tracks}
         </div>
-        <div className={styles.playlist_footer}>
-          {/*<LoadMoreLink label={'Предыдущие выпуски'} />*/}
-        </div>
+        {loadMoreBtn}
       </div>
     </section>
   );
@@ -49,8 +63,8 @@ const Episodes: React.FC = () => {
   return (
     <>
       { errorMessage }
-      { loader }
       { section }
+      { loader }
     </>
   )
 }

@@ -1,5 +1,5 @@
 //core
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import Tabs, {TabPane} from 'rc-tabs';
 import ReactHtmlParser from 'react-html-parser';
@@ -29,14 +29,38 @@ export interface IUserPublicRouteParams {
 
 const Episode: React.FC = () => {
   const history = useHistory();
-
   const { id } = useParams<IUserPublicRouteParams>();
 
   const { isFetching, error, data } = useEpisode(id);
+  const { current, play, instancePlayer, setCurrent, setPlaylist } = usePlayer();
 
-  console.log('Episode data: ', data);
+  const [isPlay, setIsPlay] = useState<boolean>(data?.track.musicSrc === current?.musicSrc);
 
-  const { setCurrent, setPlaylist } = usePlayer();
+  useEffect(() => {
+    if (data) {
+      document.documentElement.style.setProperty('--color-player-a', data.colorFirst);
+      document.documentElement.style.setProperty('--color-player-b', data.colorSecond);
+    }
+  }, [data]);
+
+  // redirect to 404
+  useEffect(() => {
+    if (!isFetching && error && (error.status === 404)) {
+      history.push(book.notFound)
+    }
+  }, [error, isFetching]);
+
+  useEffect(() => {
+    if (data && current?.id === data.id && play) {
+      setIsPlay(true);
+    } else {
+      setIsPlay(false);
+    }
+  }, [current, play]);
+
+  useEffect(() => {
+    setIsPlay(data?.track.musicSrc === current?.musicSrc);
+  }, [data]);
 
   // handlers
   const handlerClick = (playlist: any, colorFirst: string, colorSecond: string) => {
@@ -45,13 +69,20 @@ const Episode: React.FC = () => {
 
     setPlaylist(playlist);
     setCurrent(playlist[0]);
+
+    if (play) {
+      isPlay && instancePlayer.pause();
+      //current?.musicSrc !== data?.track.musicSrc &&
+    } else {
+      instancePlayer.play();
+    }
   }
 
   const errorMessage = !isFetching && error && <Error message={error.message}/>;
 
   const loader = isFetching && <Loader/>;
 
-  const episode = data && <section className={styles.episode}>
+  const episode = !isFetching && data && <section className={styles.episode}>
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div className={styles.block}>
@@ -70,9 +101,11 @@ const Episode: React.FC = () => {
               </div>
               <div className={styles.bottom}>
                 <div className={styles.controls} onClick={() => handlerClick([{...data.track}], data.colorFirst, data.colorSecond)}>
-                  <span>Слушать</span>
+                  <span>{isPlay ? 'Пауза' : 'Слушать'}</span>
                   <div className={styles.play} style={{background: `linear-gradient(140deg, ${data.colorFirst}, ${data.colorSecond})`}}>
-                    <span className="icon-play" />
+                    {
+                      isPlay ? <span className="icon-pause"/> : <span className="icon-play"/>
+                    }
                   </div>
                 </div>
               </div>
@@ -114,12 +147,6 @@ const Episode: React.FC = () => {
       </div>
     </section>;
 
-  // redirect to 404
-  useEffect(() => {
-    if (!isFetching && error && (error.status === 404)) {
-      history.push(book.notFound)
-    }
-  }, [error, isFetching]);
 
   return (
     <>

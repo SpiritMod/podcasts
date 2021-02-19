@@ -7,6 +7,7 @@ import { podcastPage, podcastPlaylist } from '../API';
 
 // Types
 import {IPodcastPageDataItem, IPodcastPlaylistDataItem, types} from './types';
+import {playerActions} from "../player/actions";
 
 export const podcastPageActions = Object.freeze({
 
@@ -21,6 +22,13 @@ export const podcastPageActions = Object.freeze({
   setPlaylistData: (payload: IPodcastPageDataItem[]) => {
     return {
       type: types.PODCAST_PLAYLIST_SET_DATA,
+      payload
+    }
+  },
+
+  updatePlaylistData: (payload: IPodcastPageDataItem[]) => {
+    return {
+      type: types.PODCAST_PLAYLIST_UPDATE_DATA,
       payload
     }
   },
@@ -74,7 +82,7 @@ export const podcastPageActions = Object.freeze({
   },
 
   // Async Podcast Playlist Data
-  getPlaylistData: (slug: string) => async (dispatch: Dispatch) => {
+  getPlaylistData: (slug: string, page?: number) => async (dispatch: Dispatch) => {
     dispatch({
       type: types.PODCAST_PLAYLIST_FETCH
     });
@@ -82,12 +90,26 @@ export const podcastPageActions = Object.freeze({
     dispatch(podcastPageActions.startFetching());
 
     try {
-      const response: any = await get(`${podcastPlaylist}${slug}`);
+      const response: any = await get(`${podcastPlaylist}${slug}?page=${page || 1}`);
 
       if (response.status === 200) {
         const results = await response.json();
 
-        dispatch(podcastPageActions.setPlaylistData(results));
+        if (results._meta.currentPage > 1) {
+          dispatch(podcastPageActions.updatePlaylistData(results));
+
+          const tracks = results.items.map((item: any) => {
+            return {
+              ...item.track,
+              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 62)}`
+            }
+          }, []);
+
+          dispatch(playerActions.updatePlaylistData(tracks));
+        } else {
+          dispatch(podcastPageActions.setPlaylistData(results));
+        }
+
       } else {
         const error = {
           status: response.status

@@ -19,7 +19,7 @@ export const episodesReducer = (state = initialState, {type, payload}: IAction<o
         data: {
           items: state.data?.items.concat(payload.items),
           _links: payload._links,
-          _meta: payload._links,
+          _meta: payload._meta,
         }
       }
 

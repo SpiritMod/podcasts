@@ -9,7 +9,8 @@ import { podcastPageActions } from "./actions";
 
 // types
 import { IPodcastPageState } from "./types";
-type storeState = {
+import {episodesActions} from "../episodes/actions";
+export type storeStatePodcast = {
   podcast: IPodcastPageState
 }
 
@@ -18,7 +19,7 @@ export const usePodcastPage = (slug: string) => {
 
   const { list, setPlaylist } = usePlayer();
 
-  const { isFetching, error, data, playlist } = useSelector((state: storeState) => state.podcast);
+  const { isFetching, error, data, playlist } = useSelector((state: storeStatePodcast) => state.podcast);
 
   useEffect(() => {
     dispatch(podcastPageActions.getData(slug));
@@ -27,10 +28,9 @@ export const usePodcastPage = (slug: string) => {
 
   useEffect(() => {
     if (!!playlist) {
-      const tracks = playlist.items[0].playlist.map((item) => {
+      const tracks = playlist.items.map((item) => {
         return item.track
       }, []);
-
       //  set playlist to player
       !list.length && setPlaylist(tracks);
 
@@ -48,10 +48,15 @@ export const usePodcastPage = (slug: string) => {
     }
   }, [data]);
 
+  const loadMorePlaylist = (slug: string, page: number) => {
+    dispatch(podcastPageActions.getPlaylistData(slug, page));
+  };
+
   return {
     isFetching,
     error,
     data,
     playlist,
+    loadMorePlaylist,
   }
 }

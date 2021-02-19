@@ -4,7 +4,9 @@ export enum types {
   PLAYER_SET_PLAYLIST = 'PLAYER_SET_PLAYLIST',
   PLAYER_UPDATE_PLAYLIST = 'PLAYER_UPDATE_PLAYLIST',
   PLAYER_SET_CURRENT = 'PLAYER_SET_CURRENT',
+  PLAYER_SET_INSTANCE = 'PLAYER_SET_INSTANCE',
   PLAYER_SET_VOLUME = 'PLAYER_SET_VOLUME',
+  PLAYER_SET_PLAY = 'PLAYER_SET_PLAY',
 }
 
 // item
@@ -20,7 +22,9 @@ export interface IPlaylistDataItem {
 export interface IPlayerState {
   readonly current: IPlaylistDataItem | null,
   readonly volume: number,
+  readonly instancePlayer: any,
   readonly list: IPlaylistDataItem[] | [],
+  readonly play: boolean
 }
 
 

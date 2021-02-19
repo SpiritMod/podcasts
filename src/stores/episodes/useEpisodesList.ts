@@ -17,7 +17,7 @@ type storeState = {
 export const useEpisodesList = () => {
   const dispatch = useDispatch();
 
-  const { list, setPlaylist } = usePlayer();
+  const { list, setPlaylist, updatePlaylist } = usePlayer();
   const { isFetching, error, data } = useSelector((state: storeState) => state.episodes);
 
   useEffect(() => {
@@ -26,16 +26,23 @@ export const useEpisodesList = () => {
     }
   },[]);
 
-  useEffect(() => {
-    if (!!data) {
-      const tracks = data.items.map((item) => {
-        return item.track
-      }, []);
-
-      //  set playlist to player
-      !list.length && setPlaylist(tracks);
-    }
-  },[data?.items]);
+  // useEffect(() => {
+  //   if (!!data) {
+  //     const tracks = data.items.map((item) => {
+  //       return item.track
+  //     }, []);
+  //
+  //     //  set playlist to player
+  //     console.log('list.length: ', list.length);
+  //     console.log('new tracks: ', tracks);
+  //
+  //     if (list.length === 0) {
+  //       setPlaylist(tracks);
+  //     } else  {
+  //       updatePlaylist(tracks);
+  //     }
+  //   }
+  // },[data]);
 
   const loadMore = (page: number) => {
     dispatch(episodesActions.getData(page));

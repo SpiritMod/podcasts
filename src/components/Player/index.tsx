@@ -66,6 +66,7 @@ const Player: React.FC = () => {
   };
 
   const options = useMemo(() => {
+    console.log('options current:', current);
     let autoplay = false;
 
     let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
@@ -84,13 +85,21 @@ const Player: React.FC = () => {
 
     return {
       ...defaultOptions,
-      defaultPlayIndex: playIndex,
+      //defaultPlayIndex: playIndex,
       autoPlay: autoplay,
-      audioLists: list,
       defaultVolume: Math.sqrt(volume),
       //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
     }
-  }, [list, volume, current]);
+  }, [volume, current]);
+
+  //update playlist
+  const playlist = useMemo(() => {
+    console.log('updated playlist');
+    return {
+      audioLists: list,
+    }
+  }, [list]);
+
 
   // play new audio
   useEffect(() => {
@@ -101,7 +110,6 @@ const Player: React.FC = () => {
       instance.updatePlayIndex(playIndex);
     }
   }, [playIndex]);
-
 
 
   /*const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
@@ -145,6 +153,7 @@ const Player: React.FC = () => {
       {
         !!list.length && <ReactJkMusicPlayer
           {...options}
+          {...playlist}
           onPlayIndexChange={onPlayIndexChange}
           onAudioVolumeChange={onAudioVolumeChange}
           getAudioInstance={getAudioInstance}
@@ -156,6 +165,6 @@ const Player: React.FC = () => {
       }
     </>
   )
-};
+}
 
 export default Player;

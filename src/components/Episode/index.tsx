@@ -67,8 +67,13 @@ const Episode: React.FC = () => {
     document.documentElement.style.setProperty('--color-player-a', colorFirst);
     document.documentElement.style.setProperty('--color-player-b', colorSecond);
 
-    setPlaylist(playlist);
-    setCurrent(playlist[0]);
+    console.log('handlerClick data?.track.id', data?.track.id);
+    console.log('handlerClick current?.id', current?.id);
+
+    if ( data?.track.id !== current?.id ) {
+      setPlaylist(playlist);
+      setCurrent(playlist[0]);
+    }
 
     if (play) {
       isPlay && instancePlayer.pause();

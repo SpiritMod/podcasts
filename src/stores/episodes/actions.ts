@@ -67,23 +67,23 @@ export const episodesActions = Object.freeze({
           const tracks = results.items.map((item: any) => {
             return {
               ...item.track,
-              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 62)}`
+              musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
             }
           }, []);
 
           dispatch(playerActions.updatePlaylistData(tracks));
         } else {
           dispatch(episodesActions.setData(results));
+          //
+          // // update
+          // const tracks = results.items.map((item: any) => {
+          //   return {
+          //     ...item.track,
+          //     musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
+          //   }
+          // }, []);
 
-          // update
-          const tracks = results.items.map((item: any) => {
-            return {
-              ...item.track,
-              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 997)}`
-            }
-          }, []);
-
-          dispatch(playerActions.updatePlaylistData(tracks));
+          //dispatch(playerActions.setPlaylistData(tracks));
         }
       } else {
         const error = {

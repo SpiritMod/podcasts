@@ -9,7 +9,8 @@ import styles from './styles/styles.module.scss';
 
 //types
 import {IEpisodesDataItem} from "../../stores/episodes/types";
-import {useEpisodesList} from "../../stores/episodes/useEpisodesList";
+import {storeStateEpisodes} from "../../stores/episodes/useEpisodesList";
+import { useSelector } from 'react-redux';
 
 interface ItemSong {
   data: IEpisodesDataItem,
@@ -20,7 +21,7 @@ interface ItemSong {
 const ItemSong: React.FC<ItemSong> = (props) => {
 
   const {list, current, play, instancePlayer, setCurrent, setPlaylist} = usePlayer();
-  const {data} = useEpisodesList();
+  let { data } = useSelector((state: storeStateEpisodes) => state.episodes);
 
   const [isPlay, setIsPlay] = useState<boolean>(false);
   const [tracks, setTracks] = useState<any>(data?.items.map((item) => item.track, []));
@@ -41,14 +42,30 @@ const ItemSong: React.FC<ItemSong> = (props) => {
     document.documentElement.style.setProperty('--color-player-a', colorFirst);
     document.documentElement.style.setProperty('--color-player-b', colorSecond);
 
+    const newPlaylist = data?.items.map((item: IEpisodesDataItem) => {
+      return {
+        ...item.track,
+        musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
+      }
+    }, []);
+
+    const needUpdatePlaylist = list.length == newPlaylist?.length && list.every((v,i)=>v === newPlaylist[i]);
+
+    if (!needUpdatePlaylist) {
+      newPlaylist && setPlaylist(newPlaylist);
+    }
+
     // set new current track
     setCurrent(track);
 
-    data && !list.length && setPlaylist(tracks);
+    console.log('Track current: ', current);
+
+    //data && !list.length && setPlaylist(tracks);
 
     if (play) {
       isPlay && instancePlayer.pause();
     } else {
+      //instancePlayer.updatePlayIndex(playIndex);
       instancePlayer.play();
     }
   }
@@ -61,9 +78,9 @@ const ItemSong: React.FC<ItemSong> = (props) => {
     }
   }, [current, play]);
 
-  useEffect(() => {
-    setTracks(data?.items.map((item) => item.track, []));
-  }, [data]);
+  // useEffect(() => {
+  //   setTracks(data?.items.map((item) => item.track, []));
+  // }, [data]);
 
   const songItem = data && (
     <>

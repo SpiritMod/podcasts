@@ -101,7 +101,7 @@ export const podcastPageActions = Object.freeze({
           const tracks = results.items.map((item: any) => {
             return {
               ...item.track,
-              musicSrc: `${item.track.musicSrc}?v=${Math.floor(Math.random() * 62)}`
+              musicSrc: `${item.track.musicSrc}?v=${item.track.id})}`
             }
           }, []);
 

@@ -59,7 +59,7 @@ const Episode: React.FC = () => {
   }, [current, play]);
 
   useEffect(() => {
-    setIsPlay(data?.track.musicSrc === current?.musicSrc);
+    setIsPlay(data?.track.id === current?.id);
   }, [data]);
 
   // handlers
@@ -67,7 +67,7 @@ const Episode: React.FC = () => {
     document.documentElement.style.setProperty('--color-player-a', colorFirst);
     document.documentElement.style.setProperty('--color-player-b', colorSecond);
 
-    console.log('handlerClick data?.track.id', data?.track.id);
+    console.log('handlerClick playlist', playlist);
     console.log('handlerClick current?.id', current?.id);
 
     if ( data?.track.id !== current?.id ) {
@@ -75,11 +75,12 @@ const Episode: React.FC = () => {
       setCurrent(playlist[0]);
     }
 
-    if (play) {
+    if (play && data?.track.id === current?.id) {
       isPlay && instancePlayer.pause();
-      //current?.musicSrc !== data?.track.musicSrc &&
     } else {
-      instancePlayer.play();
+      setTimeout(function () {
+        instancePlayer.play();
+      }, 200);
     }
   }
 
@@ -105,7 +106,7 @@ const Episode: React.FC = () => {
                 </div>
               </div>
               <div className={styles.bottom}>
-                <div className={styles.controls} onClick={() => handlerClick([{...data.track}], data.colorFirst, data.colorSecond)}>
+                <div className={styles.controls} onClick={() => handlerClick([{...data.track, musicSrc: `${data.track.musicSrc}?v=${data.track.id}`}], data.colorFirst, data.colorSecond)}>
                   <span>{isPlay ? 'Пауза' : 'Слушать'}</span>
                   <div className={styles.play} style={{background: `linear-gradient(140deg, ${data.colorFirst}, ${data.colorSecond})`}}>
                     {

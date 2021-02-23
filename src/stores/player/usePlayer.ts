@@ -33,16 +33,13 @@ export const usePlayer = () => {
   //const localVolume = JSON.parse(localStorage.getItem('playerVolume') || '{}');
   useEffect(() => {
     let volume = 1;
+
     if (typeof localStorage.getItem('playerVolume') === 'string') {
       volume = JSON.parse(localStorage.getItem('playerVolume') || '{}');
       setVolume(volume);
     }
+
   }, [volume]);
-
-  useEffect(() => {
-    //console.log('usePlayer current: ', current);
-  }, [current]);
-
 
   return {
     current,

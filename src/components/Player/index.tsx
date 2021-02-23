@@ -19,97 +19,13 @@ const loadingBtn = <img src={iconLoading} alt="Loading..."/>;
 const Player: React.FC = () => {
   const { volume, play, current, list, setVolume, setCurrent, setPlayerInstance, setPlay } = usePlayer();
 
+  console.log('list: ', list);
+  console.log('current: ', current);
+
   // local state
   const [playIndex, setPlayIndex] = useState<number>(0);
   const [instance, setInstance] = useState<any>(null);
   // end local state
-
-  const defaultOptions: any = {
-    mode: 'full',
-    defaultVolume: 1,
-    autoPlay: list.length === 1,
-    showDownload: false,
-    showPlayMode: false,
-    showThemeSwitch: false,
-    showReload: false,
-    remember: false,
-    preload: true,
-    defaultPlayIndex: 0,
-    defaultPlayMode: 'orderLoop',
-    showMediaSession: true,
-    quietUpdate: true,
-    autoPlayInitLoadPlayList: list.length === 1,
-    clearPriorAudioLists: true,
-    mobileMediaQuery: '(max-width: 1px)',
-    drag: false,
-    onAudioListsSortEnd: {swap: false, animation: 100, swapClass: 'audio-lists-panel-sortable-highlight-bg'},
-    //audioLists: audioList,
-    volumeFade: {
-      fadeIn: 0,
-      fadeOut: 0
-    },
-    icon: {
-      pause: pauseBtn,
-      play: playBtn,
-      loading: loadingBtn,
-    },
-    onAudioPlayTrackChange(fromIndex: any, endIndex: any) {
-      console.log(
-        'audio play track change:',
-        fromIndex,
-        endIndex,
-      )
-    },
-    onAudioProgress(audioInfo: any) {
-      //console.log('onAudioProgress audioInfo: ',audioInfo);
-    },
-  };
-
-  const options = useMemo(() => {
-    console.log('options current:', current);
-    let autoplay = false;
-
-    let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
-
-    if (!!current) {
-      autoplay = play ? true : false;
-      setPlayIndex(currentIndex);
-
-      // if (currentIndex === 0) {
-      //   //console.log('currentIndex === 0', currentIndex === 0)
-      //   //setCurrent(list[0]);
-      //   // instance.play();
-      //   // setPlay(true);
-      // }
-    }
-
-    return {
-      ...defaultOptions,
-      //defaultPlayIndex: playIndex,
-      autoPlay: autoplay,
-      defaultVolume: Math.sqrt(volume),
-      //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
-    }
-  }, [volume, current]);
-
-  //update playlist
-  const playlist = useMemo(() => {
-    console.log('updated playlist');
-    return {
-      audioLists: list,
-    }
-  }, [list]);
-
-
-  // play new audio
-  useEffect(() => {
-    setCurrent(list[playIndex]);
-    //console.log('playIndex setCurrent: ', playIndex, list[playIndex])
-
-    if (instance !== null) {
-      instance.updatePlayIndex(playIndex);
-    }
-  }, [playIndex]);
 
 
   /*const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
@@ -147,13 +63,112 @@ const Player: React.FC = () => {
     setPlay(false);
   };
 
+  const defaultOptions: any = {
+    mode: 'full',
+    defaultVolume: 1,
+    autoPlay: play,
+    showDownload: false,
+    showPlayMode: false,
+    showThemeSwitch: false,
+    showReload: false,
+    remember: false,
+    preload: true,
+    defaultPlayIndex: 0,
+    defaultPlayMode: 'orderLoop',
+    showMediaSession: true,
+    quietUpdate: true,
+    autoPlayInitLoadPlayList: list.length === 1,
+    clearPriorAudioLists: true,
+    mobileMediaQuery: '(max-width: 1px)',
+    drag: false,
+    //onAudioListsSortEnd: {swap: false, animation: 100, swapClass: 'audio-lists-panel-sortable-highlight-bg'},
+    //audioLists: audioList,
+    volumeFade: {
+      fadeIn: 0,
+      fadeOut: 0
+    },
+    icon: {
+      pause: pauseBtn,
+      play: playBtn,
+      loading: loadingBtn,
+    },
+    onAudioPlayTrackChange(fromIndex: any, endIndex: any) {
+      console.log(
+        'audio play track change:',
+        fromIndex,
+        endIndex,
+      )
+    },
+    onAudioProgress(audioInfo: any) {
+      //console.log('onAudioProgress audioInfo: ',audioInfo);
+    },
+  };
+
+  const options = useMemo(() => {
+    console.log('options current:', current);
+
+    let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
+
+    if (!!current) {
+      console.log('options currentIndex:', currentIndex);
+      //autoplay = play ? true : false;
+      setPlayIndex(currentIndex);
+      instance.updatePlayIndex(currentIndex);
+
+      if (currentIndex < 0) {
+        //setCurrent(list[0]);
+
+      //   //console.log('currentIndex === 0', currentIndex === 0)
+      //   //
+      //   // instance.play();
+      //   // setPlay(true);
+      }
+    }
+
+    return {
+      defaultPlayIndex: currentIndex,
+      autoPlayInitLoadPlayList: true,
+      //autoPlay: true,
+      //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
+    }
+  }, [current]);
+
+  //update playlist
+  // const playlist = useMemo(() => {
+  //   console.log('updated playlist');
+  //   return {
+  //     audioLists: list,
+  //   }
+  // }, [list]);
+
+
+  //update volume
+  const newVolume = useMemo(() => {
+    return {
+      defaultVolume: Math.sqrt(volume),
+    }
+  }, [volume]);
+
+  // play new audio
+  useEffect(() => {
+    setCurrent(list[playIndex]);
+    console.log('playIndex setCurrent: ', playIndex, list[playIndex])
+
+    if (instance !== null) {
+      //instance.updatePlayIndex(playIndex);
+      //instance.play();
+    }
+  }, [playIndex]);
+
 
   return (
     <>
       {
         !!list.length && <ReactJkMusicPlayer
+          {...defaultOptions}
           {...options}
-          {...playlist}
+          {...newVolume}
+          audioLists={list}
           onPlayIndexChange={onPlayIndexChange}
           onAudioVolumeChange={onAudioVolumeChange}
           getAudioInstance={getAudioInstance}

@@ -9,7 +9,6 @@ import { podcastPageActions } from "./actions";
 
 // types
 import { IPodcastPageState } from "./types";
-import {episodesActions} from "../episodes/actions";
 export type storeStatePodcast = {
   podcast: IPodcastPageState
 }
@@ -28,8 +27,11 @@ export const usePodcastPage = (slug: string) => {
 
   useEffect(() => {
     if (!!playlist) {
-      const tracks = playlist.items.map((item) => {
-        return item.track
+      const tracks = playlist.items.map((item: any) => {
+        return {
+          ...item.track,
+          musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
+        }
       }, []);
       //  set playlist to player
       !list.length && setPlaylist(tracks);

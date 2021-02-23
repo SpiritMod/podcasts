@@ -25,7 +25,7 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
   //const { playlist } = usePodcastPage(params.slug);
   const { playlist } = useSelector((state: storeStatePodcast) => state.podcast)
 
-  const { play, current, instancePlayer, setCurrent, setPlaylist, updatePlaylist } = usePlayer();
+  const { play, list, current, instancePlayer, setCurrent, setPlaylist, updatePlaylist } = usePlayer();
 
   const [isPlay, setIsPlay] = useState<boolean>(track.id === current?.id);
 
@@ -37,19 +37,36 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
     }
   }, [track, current, play]);
 
-  // useEffect(() => {
-  //   setIsPlay(track.id === current?.id);
-  // }, [track, current]);
-
   const handlerClick = (playlist: any) => {
     document.documentElement.style.setProperty('--color-player-a', document.documentElement.style.getPropertyValue('--color-playlist-b'));
     document.documentElement.style.setProperty('--color-player-b', document.documentElement.style.getPropertyValue('--color-playlist-a'));
 
-    //console.log('playlist new: ', playlist);
+    console.log('playlist new: ', playlist.items);
 
     const newPlaylist = playlist.map((item: IPodcastPlaylistDataItem) => {
-      return item.track
-    }, [])
+      return {
+        ...item.track,
+        musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
+      }
+    }, []);
+
+    //const hasInPlaylist = !!newPlaylist.find((item:any) => item.id === track.id);
+
+    const needUpdatePlaylist = list.length == newPlaylist.length && list.every((v,i)=>v === newPlaylist[i]);
+    //console.log('test: ', needUpdatePlaylist);
+
+    if (!needUpdatePlaylist) {
+      //console.log('setNewPlaylist');
+      setPlaylist(newPlaylist);
+    }
+
+    // console.log('handlerClick track:', track);
+    // console.log('handlerClick newPlaylist:', newPlaylist);
+    // console.log('hasInPlaylist: ', hasInPlaylist);
+
+
+
+
 
     //setPlaylist(newPlaylist);
     setCurrent(track);
@@ -64,7 +81,7 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
 
   const trackItem = playlist && (
     <>
-      <div className={styles.track}>
+      <div className={styles.track} data-id={track.id} data-url={track.musicSrc}>
         <div className={styles.left_side}>
           <Link to={`/podcast/${podcastSlug}/episode/${slug}`} className={styles.img}>
             <img src={track.cover} alt="img"/>

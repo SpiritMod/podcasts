@@ -10,7 +10,7 @@ import {usePlayer} from "../player/usePlayer";
 
 // types
 import { IEpisodesState } from "./types";
-type storeState = {
+export type storeStateEpisodes = {
   episodes: IEpisodesState
 }
 
@@ -18,7 +18,7 @@ export const useEpisodesList = () => {
   const dispatch = useDispatch();
 
   const { list, setPlaylist, updatePlaylist } = usePlayer();
-  const { isFetching, error, data } = useSelector((state: storeState) => state.episodes);
+  const { isFetching, error, data } = useSelector((state: storeStateEpisodes) => state.episodes);
 
   useEffect(() => {
     if (data === null) {
@@ -26,23 +26,19 @@ export const useEpisodesList = () => {
     }
   },[]);
 
-  // useEffect(() => {
-  //   if (!!data) {
-  //     const tracks = data.items.map((item) => {
-  //       return item.track
-  //     }, []);
-  //
-  //     //  set playlist to player
-  //     console.log('list.length: ', list.length);
-  //     console.log('new tracks: ', tracks);
-  //
-  //     if (list.length === 0) {
-  //       setPlaylist(tracks);
-  //     } else  {
-  //       updatePlaylist(tracks);
-  //     }
-  //   }
-  // },[data]);
+  useEffect(() => {
+    if (data) {
+      const tracks = data.items.map((item: any) => {
+        return {
+          ...item.track,
+          musicSrc: `${item.track.musicSrc}?v=${item.track.id}`
+        }
+      }, []);
+
+      !list.length && setPlaylist(tracks);
+    }
+
+  },[data]);
 
   const loadMore = (page: number) => {
     dispatch(episodesActions.getData(page));

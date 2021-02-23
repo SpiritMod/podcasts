@@ -1,6 +1,7 @@
 //core
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
 import {useParams} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 // styles
 import styles from './styles/styles.module.scss';
@@ -9,28 +10,29 @@ import styles from './styles/styles.module.scss';
 import Sort from "../Sort";
 import LoadMoreLink from "../LoadMoreLink";
 import Track from "./Track";
-import {usePodcastPage} from "../../stores/podcastPage/usePodcastPage";
+import {storeStatePodcast} from "../../stores/podcastPage/usePodcastPage";
 import {IUserPublicRouteParams} from "./index";
 import Error from "../Error";
 import Loader from "../Loader";
-//import {IPodcastPlaylistDataItem} from "../../stores/podcastPage/types";
+import {podcastPageActions} from "../../stores/podcastPage/actions";
 
 const Episodes: React.FC = () => {
+  const dispatch = useDispatch();
+
   const { slug } = useParams<IUserPublicRouteParams>();
 
-  const { isFetching, error, playlist, loadMorePlaylist } = usePodcastPage(slug);
+  const { isFetching, error, playlist } = useSelector((state: storeStatePodcast) => state.podcast);
 
   const errorMessage = !isFetching && error && <Error message={error.message}/>;
 
   const loader = isFetching && <Loader/>;
 
   const handleLoadMore = (): void => {
-    const page = playlist ? playlist._meta.currentPage + 1 : 1
-    loadMorePlaylist(slug, page);
+    const page = playlist ? playlist._meta.currentPage + 1 : 1;
+    dispatch(podcastPageActions.getPlaylistData(slug, page));
   }
 
   const tracks = playlist && playlist.items.map((item: any) => {
-    //console.log('playlist item: ', item);
     return <Track key={item.id} {...item} />
   });
 

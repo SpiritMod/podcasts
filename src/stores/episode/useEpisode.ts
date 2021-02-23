@@ -21,7 +21,10 @@ export const useEpisode = (slug: string) => {
 
   useEffect(() => {
     if (!!data) {
-      const tracks = [{...data.track}]
+      const tracks = [{
+          ...data.track,
+          musicSrc: `${data.track.musicSrc}?v=${data.track.id}`
+        }];
 
       //  set playlist to player
       !list.length && setPlaylist(tracks);

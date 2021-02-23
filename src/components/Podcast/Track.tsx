@@ -41,7 +41,7 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
     document.documentElement.style.setProperty('--color-player-a', document.documentElement.style.getPropertyValue('--color-playlist-b'));
     document.documentElement.style.setProperty('--color-player-b', document.documentElement.style.getPropertyValue('--color-playlist-a'));
 
-    console.log('playlist new: ', playlist.items);
+    //console.log('playlist new: ', playlist.items);
 
     const newPlaylist = playlist.map((item: IPodcastPlaylistDataItem) => {
       return {

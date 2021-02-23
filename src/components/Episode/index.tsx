@@ -67,8 +67,8 @@ const Episode: React.FC = () => {
     document.documentElement.style.setProperty('--color-player-a', colorFirst);
     document.documentElement.style.setProperty('--color-player-b', colorSecond);
 
-    console.log('handlerClick playlist', playlist);
-    console.log('handlerClick current?.id', current?.id);
+    // console.log('handlerClick playlist', playlist);
+    // console.log('handlerClick current?.id', current?.id);
 
     if ( data?.track.id !== current?.id ) {
       setPlaylist(playlist);

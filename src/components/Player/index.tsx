@@ -19,14 +19,36 @@ const loadingBtn = <img src={iconLoading} alt="Loading..."/>;
 const Player: React.FC = () => {
   const { volume, play, current, list, setVolume, setCurrent, setPlayerInstance, setPlay } = usePlayer();
 
-  // console.log('list: ', list);
-  // console.log('current: ', current);
+  //console.log('list: ', list);
+  //console.log('current: ', current);
   // console.log('play PLAYER: ', play);
 
   // local state
   const [playIndex, setPlayIndex] = useState<number>(0);
   const [instance, setInstance] = useState<any>(null);
+  const [audioLists, setAudioLists] = useState<any>(null);
   // end local state
+
+  useMemo(() => {
+    setTimeout(function () {
+      setAudioLists(list);
+    },0);
+  }, [list])
+
+  //console.log('lastPlayStatus: ', localStorage.getItem('lastPlayStatus'))
+
+  //const lastPlayStatus = localStorage.getItem('lastPlayStatus');
+
+  // useEffect(() => {
+  //   if (lastPlayStatus && !current && list) {
+  //     setAudioLists([
+  //       ...list,
+  //       {
+  //
+  //       }
+  //     ])
+  //   }
+  // },[]);
 
 
   /*const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
@@ -54,8 +76,11 @@ const Player: React.FC = () => {
 
   const onAudioPlay = (audioInfo: any) => {
     //console.log('onAudioPlay: ',audioInfo);
+
+
     setPlay(true);
     if (!current) {
+      console.log(audioInfo.playIndex);
       setCurrent(list[audioInfo.playIndex])
     }
   };
@@ -72,9 +97,9 @@ const Player: React.FC = () => {
     showPlayMode: false,
     showThemeSwitch: false,
     showReload: false,
-    remember: false,
+    remember: true,
     preload: true,
-    defaultPlayIndex: 1,
+    defaultPlayIndex: 0,
     defaultPlayMode: 'orderLoop',
     showMediaSession: true,
     quietUpdate: true,
@@ -98,7 +123,7 @@ const Player: React.FC = () => {
       //   'audio play track change:',
       //   fromIndex,
       //   endIndex,
-      // )
+      // );
     },
     onAudioProgress(audioInfo: any) {
       //console.log('onAudioProgress audioInfo: ',audioInfo);
@@ -106,9 +131,12 @@ const Player: React.FC = () => {
   };
 
   useMemo(() => {
-    //console.log('options current:', current);
+    console.log('options current:', current);
 
     let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
+
+    console.log('options currentIndex:', currentIndex);
+    console.log('options !!current:', !!current);
 
     if (!!current) {
       //console.log('options currentIndex:', currentIndex);
@@ -152,12 +180,12 @@ const Player: React.FC = () => {
 
   // play new audio
   useEffect(() => {
-    //setCurrent(list[playIndex]);
-    //console.log('playIndex setCurrent: ', playIndex, list[playIndex])
+    console.log('playIndex setCurrent: ', playIndex, list[playIndex]);
+
+    setCurrent(list[playIndex]);
 
     if (instance !== null) {
       instance.updatePlayIndex(playIndex);
-      //instance.play();
     }
   }, [playIndex]);
 
@@ -168,7 +196,7 @@ const Player: React.FC = () => {
         !!list.length && <ReactJkMusicPlayer
           {...defaultOptions}
           {...newVolume}
-          audioLists={list}
+          audioLists={audioLists}
           onPlayIndexChange={onPlayIndexChange}
           onAudioVolumeChange={onAudioVolumeChange}
           getAudioInstance={getAudioInstance}

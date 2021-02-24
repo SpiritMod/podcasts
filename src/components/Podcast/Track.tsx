@@ -53,7 +53,7 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
     //const hasInPlaylist = !!newPlaylist.find((item:any) => item.id === track.id);
 
     const needUpdatePlaylist = list.length == newPlaylist.length && list.every((v,i)=>v === newPlaylist[i]);
-    //console.log('test: ', needUpdatePlaylist);
+    console.log('needUpdatePlaylist: ', !needUpdatePlaylist);
 
     if (!needUpdatePlaylist) {
       //console.log('setNewPlaylist');

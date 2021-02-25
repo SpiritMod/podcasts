@@ -58,7 +58,7 @@ const ItemSong: React.FC<ItemSong> = (props) => {
     // set new current track
     setCurrent(track);
 
-    console.log('Track current: ', current);
+    //console.log('Track current: ', current);
 
     //data && !list.length && setPlaylist(tracks);
 
@@ -84,7 +84,7 @@ const ItemSong: React.FC<ItemSong> = (props) => {
 
   const songItem = data && (
     <>
-      <div className={`${styles.song} ${className}`} data-key={dataKey} data-id={track.id}>
+      <div className={`${styles.song} ${className}`}>
         <div className={styles.border} style={{background: `linear-gradient(to bottom, ${colorFirst}, ${colorSecond})`}}/>
         <div className={styles.content}>
           <Link to={podcastUrl} className={styles.img}>

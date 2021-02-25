@@ -43,6 +43,7 @@
 
     &.active {
       color: #E0E0E0;
+      pointer-events: none;
     }
   }
 }

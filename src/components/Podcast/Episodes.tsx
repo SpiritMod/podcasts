@@ -1,5 +1,5 @@
 //core
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +15,18 @@ import {IUserPublicRouteParams} from "./index";
 import Error from "../Error";
 import Loader from "../Loader";
 import {podcastPageActions} from "../../stores/podcastPage/actions";
+import {IPodcastPlaylistDataItem} from "../../stores/podcastPage/types";
+
+
+function sortOld(arr: IPodcastPlaylistDataItem[]) {
+  //@ts-ignore
+  return arr.sort((a:string, b:string) => new Date(b.created) - new Date(a.created))
+}
+
+function sortNew(arr: IPodcastPlaylistDataItem[]) {
+  //@ts-ignore
+  return arr.sort((a:string, b:string) => new Date(a.created) - new Date(b.created))
+}
 
 const Episodes: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,6 +34,33 @@ const Episodes: React.FC = () => {
   const { slug } = useParams<IUserPublicRouteParams>();
 
   const { isFetching, error, playlist } = useSelector((state: storeStatePodcast) => state.podcast);
+
+  const [tracksList, setTracksList] = useState<IPodcastPlaylistDataItem[] | null>(null);
+  const [sorting, setSorting] = useState<boolean>(true);
+
+
+
+  useEffect(() => {
+    if (!!playlist) {
+      console.log('setTracksList');
+      setTracksList(playlist?.items);
+    }
+  }, [playlist]);
+
+  useEffect(() => {
+    console.log('change sorting: ', sorting);
+    if (sorting) {
+      console.log('sortNew');
+      !!tracksList && setTracksList(sortNew(tracksList));
+      console.log('sortNew tracksList: ', tracksList);
+    } else {
+      console.log('sortOld');
+      !!tracksList && setTracksList(sortOld(tracksList));
+      console.log('sortNew sortOld: ', tracksList);
+    }
+  }, [sorting]);
+
+
 
   const errorMessage = !isFetching && error && <Error message={error.message}/>;
 
@@ -32,10 +71,13 @@ const Episodes: React.FC = () => {
     dispatch(podcastPageActions.getPlaylistData(slug, page));
   }
 
-  const tracks = playlist && playlist.items.map((item: any) => {
+  const handleToggleSorting = (sort: boolean) => {
+    setSorting(sort);
+  };
+
+  const tracks = !!tracksList && tracksList.map((item: any) => {
     return <Track key={item.id} {...item} />
   });
-
 
   const loadMoreBtn = (
     <>
@@ -52,7 +94,7 @@ const Episodes: React.FC = () => {
       <div className={styles.playlist}>
         <div className={styles.playlist_header}>
           <div className={styles.playlist_title}>Эпизоды</div>
-          <Sort/>
+          <Sort handler={handleToggleSorting} sort={sorting}/>
         </div>
         <div className={styles.playlist_content}>
           {tracks}

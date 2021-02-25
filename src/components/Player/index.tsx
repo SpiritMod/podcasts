@@ -26,19 +26,18 @@ const Player: React.FC = () => {
   // local state
   const [playIndex, setPlayIndex] = useState<number>(0);
   const [instance, setInstance] = useState<any>(null);
-  // const [audioLists, setAudioLists] = useState<any>(null);
+  const [audioLists, setAudioLists] = useState<any>([]);
   // end local state
 
-  /*useMemo(() => {
-    setTimeout(function () {
+  useEffect(() => {
+    if (!audioLists.length) {
       setAudioLists(list);
-    },0);
-  }, [list])*/
+    } else {
+      const newAudioLists = [...audioLists, ...list].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
 
-
-  /*const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
-      console.log('onAudioListsChange: ', currentPlayIndex, audioLists)
-  }, []);*/
+      setAudioLists(newAudioLists);
+    }
+  }, [list])
 
   const getAudioInstance = (instance: any) => {
     setInstance(instance);
@@ -54,9 +53,6 @@ const Player: React.FC = () => {
 
   const onPlayIndexChange = (playIndex: number) => {
     setPlayIndex(playIndex);
-    // console.log('onPlayIndexChange: playIndex ', playIndex);
-    // console.log('onPlayIndexChange: list', list);
-    //console.log('onPlayIndexChange: ',playIndex);
   }
 
   const onAudioPlay = (audioInfo: any) => {
@@ -80,18 +76,16 @@ const Player: React.FC = () => {
     showPlayMode: false,
     showThemeSwitch: false,
     showReload: false,
-    remember: false,
     preload: true,
     defaultPlayIndex: 0,
     defaultPlayMode: 'orderLoop',
     showMediaSession: true,
     quietUpdate: true,
-    autoPlayInitLoadPlayList: true,
-    clearPriorAudioLists: true,
+    //remember: true,
+    //autoPlayInitLoadPlayList: false,
+    //clearPriorAudioLists: true,
     mobileMediaQuery: '(max-width: 1px)',
     drag: false,
-    //onAudioListsSortEnd: {swap: false, animation: 100, swapClass: 'audio-lists-panel-sortable-highlight-bg'},
-    //audioLists: audioList,
     volumeFade: {
       fadeIn: 0,
       fadeOut: 0
@@ -101,63 +95,28 @@ const Player: React.FC = () => {
       play: playBtn,
       loading: loadingBtn,
     },
-    onAudioPlayTrackChange(fromIndex: any, endIndex: any) {
-      // console.log(
-      //   'audio play track change:',
-      //   fromIndex,
-      //   endIndex,
-      // );
-    },
-    onAudioProgress(audioInfo: any) {
-      //console.log('onAudioProgress audioInfo: ',audioInfo);
-    },
   };
 
   useMemo(() => {
-    //console.log('options current:', current);
-
-    let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
-
-    // console.log('options currentIndex:', currentIndex);
-    // console.log('options !!current:', !!current);
+    let currentIndex = current ? audioLists.findIndex((obj:any) => obj.id === current.id) : 0;
 
     if (!!current) {
-      //console.log('options currentIndex:', currentIndex);
-      //autoplay = play ? true : false;
       setPlayIndex(currentIndex);
-      //instance.updatePlayIndex(currentIndex);
-
-      //if (currentIndex < 0) {
-        //setCurrent(list[0]);
-
-      //   //console.log('currentIndex === 0', currentIndex === 0)
-      //   //
-      //   // instance.play();
-      //   // setPlay(true);
-      //}
     }
-
-    // return {
-    //   //defaultPlayIndex: currentIndex,
-    //   //autoPlayInitLoadPlayList: true,
-    //   //autoPlay: true,
-    //   //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
-    // }
   }, [current]);
-
 
   //update volume
   const newVolume = useMemo(() => {
     return {
-      //defaultVolume: Math.sqrt(volume),
+      defaultVolume: Math.sqrt(volume),
     }
   }, [volume]);
 
   // play new audio
   useEffect(() => {
-    console.log('playIndex setCurrent: ', playIndex, list[playIndex], list);
+    //console.log('playIndex setCurrent: ', playIndex, audioLists[playIndex], list);
 
-    setCurrent(list[playIndex]);
+    setCurrent(audioLists[playIndex]);
 
     if (instance !== null) {
       instance.updatePlayIndex(playIndex);
@@ -170,7 +129,7 @@ const Player: React.FC = () => {
         !!list.length && <ReactJkMusicPlayer
           {...defaultOptions}
           {...newVolume}
-          audioLists={list}
+          audioLists={audioLists}
           onPlayIndexChange={onPlayIndexChange}
           onAudioVolumeChange={onAudioVolumeChange}
           getAudioInstance={getAudioInstance}

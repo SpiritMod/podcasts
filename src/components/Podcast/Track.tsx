@@ -10,22 +10,16 @@ import { IPodcastPlaylistDataItem } from "../../stores/podcastPage/types";
 
 // hooks
 import {usePlayer} from "../../stores/player/usePlayer";
-import {storeStatePodcast, usePodcastPage} from "../../stores/podcastPage/usePodcastPage";
-import {IUserPublicRouteParams} from "./index";
+import {storeStatePodcast} from "../../stores/podcastPage/usePodcastPage";
 import {useSelector} from "react-redux";
-import {podcastPageReducer as podcast} from "../../stores/podcastPage/reducer";
-
-
 
 const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
-  //const params = useParams<IUserPublicRouteParams>();
 
-  const { title, duration, slug, podcastSlug, track } = props;
+  const { title, duration, slug, podcastSlug, track, created } = props;
 
-  //const { playlist } = usePodcastPage(params.slug);
   const { playlist } = useSelector((state: storeStatePodcast) => state.podcast)
 
-  const { play, list, current, instancePlayer, setCurrent, setPlaylist, updatePlaylist } = usePlayer();
+  const { play, list, current, instancePlayer, setCurrent, setPlaylist } = usePlayer();
 
   const [isPlay, setIsPlay] = useState<boolean>(track.id === current?.id);
 
@@ -41,8 +35,6 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
     document.documentElement.style.setProperty('--color-player-a', document.documentElement.style.getPropertyValue('--color-playlist-b'));
     document.documentElement.style.setProperty('--color-player-b', document.documentElement.style.getPropertyValue('--color-playlist-a'));
 
-    //console.log('playlist new: ', playlist.items);
-
     const newPlaylist = playlist.map((item: IPodcastPlaylistDataItem) => {
       return {
         ...item.track,
@@ -50,25 +42,12 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
       }
     }, []);
 
-    //const hasInPlaylist = !!newPlaylist.find((item:any) => item.id === track.id);
-
     const needUpdatePlaylist = list.length == newPlaylist.length && list.every((v,i)=>v === newPlaylist[i]);
-    console.log('needUpdatePlaylist: ', !needUpdatePlaylist);
 
     if (!needUpdatePlaylist) {
-      //console.log('setNewPlaylist');
       setPlaylist(newPlaylist);
     }
 
-    // console.log('handlerClick track:', track);
-    // console.log('handlerClick newPlaylist:', newPlaylist);
-    // console.log('hasInPlaylist: ', hasInPlaylist);
-
-
-
-
-
-    //setPlaylist(newPlaylist);
     setCurrent(track);
 
     if (play) {
@@ -81,14 +60,14 @@ const Track: React.FC<IPodcastPlaylistDataItem> = (props) => {
 
   const trackItem = playlist && (
     <>
-      <div className={styles.track} data-id={track.id} data-url={track.musicSrc}>
+      <div className={styles.track} data-d={created}>
         <div className={styles.left_side}>
           <Link to={`/podcast/${podcastSlug}/episode/${slug}`} className={styles.img}>
             <img src={track.cover} alt="img"/>
           </Link>
           <div className={styles.text}>
             <div className={styles.name}>
-              <Link to={`/podcast/${podcastSlug}/episode/${slug}`}>{title}</Link>
+              <Link to={`/podcast/${podcastSlug}/episode/${slug}`}>{} {created}</Link>
             </div>
           </div>
         </div>

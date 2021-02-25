@@ -16,7 +16,7 @@ export type storeStatePodcast = {
 export const usePodcastPage = (slug: string) => {
   const dispatch = useDispatch();
 
-  const { list, setPlaylist } = usePlayer();
+  const { list, play, setPlaylist } = usePlayer();
 
   const { isFetching, error, data, playlist } = useSelector((state: storeStatePodcast) => state.podcast);
 
@@ -36,7 +36,7 @@ export const usePodcastPage = (slug: string) => {
       //  set playlist to player
       !list.length && setPlaylist(tracks);
 
-      if (!!data) {
+      if (!!data && !play) {
         document.documentElement.style.setProperty('--color-player-a', data.colorFirst);
         document.documentElement.style.setProperty('--color-player-b', data.colorSecond);
       }

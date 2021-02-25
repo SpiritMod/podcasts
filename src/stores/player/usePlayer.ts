@@ -36,7 +36,7 @@ export const usePlayer = () => {
 
     if (typeof localStorage.getItem('playerVolume') === 'string') {
       volume = JSON.parse(localStorage.getItem('playerVolume') || '{}');
-      setVolume(volume);
+      //setVolume(volume);
     }
 
   }, [volume]);

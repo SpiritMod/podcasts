@@ -26,29 +26,14 @@ const Player: React.FC = () => {
   // local state
   const [playIndex, setPlayIndex] = useState<number>(0);
   const [instance, setInstance] = useState<any>(null);
-  const [audioLists, setAudioLists] = useState<any>(null);
+  // const [audioLists, setAudioLists] = useState<any>(null);
   // end local state
 
-  useMemo(() => {
+  /*useMemo(() => {
     setTimeout(function () {
       setAudioLists(list);
     },0);
-  }, [list])
-
-  //console.log('lastPlayStatus: ', localStorage.getItem('lastPlayStatus'))
-
-  //const lastPlayStatus = localStorage.getItem('lastPlayStatus');
-
-  // useEffect(() => {
-  //   if (lastPlayStatus && !current && list) {
-  //     setAudioLists([
-  //       ...list,
-  //       {
-  //
-  //       }
-  //     ])
-  //   }
-  // },[]);
+  }, [list])*/
 
 
   /*const onAudioListsChange = useCallback((currentPlayIndex, audioLists) => {
@@ -76,9 +61,7 @@ const Player: React.FC = () => {
 
   const onAudioPlay = (audioInfo: any) => {
     //console.log('onAudioPlay: ',audioInfo);
-
-
-    setPlay(true);
+    !play && setPlay(true);
     if (!current) {
       console.log(audioInfo.playIndex);
       setCurrent(list[audioInfo.playIndex])
@@ -97,13 +80,13 @@ const Player: React.FC = () => {
     showPlayMode: false,
     showThemeSwitch: false,
     showReload: false,
-    remember: true,
+    remember: false,
     preload: true,
     defaultPlayIndex: 0,
     defaultPlayMode: 'orderLoop',
     showMediaSession: true,
     quietUpdate: true,
-    autoPlayInitLoadPlayList: false,
+    autoPlayInitLoadPlayList: true,
     clearPriorAudioLists: true,
     mobileMediaQuery: '(max-width: 1px)',
     drag: false,
@@ -131,12 +114,12 @@ const Player: React.FC = () => {
   };
 
   useMemo(() => {
-    console.log('options current:', current);
+    //console.log('options current:', current);
 
     let currentIndex = current ? list.findIndex(obj => obj.id === current.id) : 0;
 
-    console.log('options currentIndex:', currentIndex);
-    console.log('options !!current:', !!current);
+    // console.log('options currentIndex:', currentIndex);
+    // console.log('options !!current:', !!current);
 
     if (!!current) {
       //console.log('options currentIndex:', currentIndex);
@@ -144,43 +127,35 @@ const Player: React.FC = () => {
       setPlayIndex(currentIndex);
       //instance.updatePlayIndex(currentIndex);
 
-      if (currentIndex < 0) {
+      //if (currentIndex < 0) {
         //setCurrent(list[0]);
 
       //   //console.log('currentIndex === 0', currentIndex === 0)
       //   //
       //   // instance.play();
       //   // setPlay(true);
-      }
+      //}
     }
 
-    return {
-      //defaultPlayIndex: currentIndex,
-      //autoPlayInitLoadPlayList: true,
-      //autoPlay: true,
-      //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
-    }
+    // return {
+    //   //defaultPlayIndex: currentIndex,
+    //   //autoPlayInitLoadPlayList: true,
+    //   //autoPlay: true,
+    //   //defaultPlayMode: list.length === 1 ? 'singleLoop' : 'orderLoop',
+    // }
   }, [current]);
-
-  //update playlist
-  // const playlist = useMemo(() => {
-  //   console.log('updated playlist');
-  //   return {
-  //     audioLists: list,
-  //   }
-  // }, [list]);
 
 
   //update volume
   const newVolume = useMemo(() => {
     return {
-      defaultVolume: Math.sqrt(volume),
+      //defaultVolume: Math.sqrt(volume),
     }
   }, [volume]);
 
   // play new audio
   useEffect(() => {
-    console.log('playIndex setCurrent: ', playIndex, list[playIndex]);
+    console.log('playIndex setCurrent: ', playIndex, list[playIndex], list);
 
     setCurrent(list[playIndex]);
 
@@ -189,14 +164,13 @@ const Player: React.FC = () => {
     }
   }, [playIndex]);
 
-
   return (
     <>
       {
         !!list.length && <ReactJkMusicPlayer
           {...defaultOptions}
           {...newVolume}
-          audioLists={audioLists}
+          audioLists={list}
           onPlayIndexChange={onPlayIndexChange}
           onAudioVolumeChange={onAudioVolumeChange}
           getAudioInstance={getAudioInstance}
